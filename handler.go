@@ -5,23 +5,27 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/gophergala/test2doc/out"
 )
 
-func HandlerWrapper(handler http.HandlerFunc) http.HandlerFunc {
-	return http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			body, err := payload(r)
-			if err != nil {
-				panic(err.Error())
-			}
+func HandlerWrapper(handler http.HandlerFunc, docFile *os.File) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		body, err := payload(r)
+		if err != nil {
+			panic(err.Error())
+		}
 
-			log.Println("Header: ", r.Header)
-			log.Println("Body: ", string(body))
+		err = out.WriteHeaders(docFile, r.Header)
+		if err != nil {
+			log.Println(err.Error())
+		}
 
-			handler(w, r)
-		},
-	)
+		log.Println("Body: ", string(body))
 
+		handler(w, r)
+	}
 }
 
 func payload(r *http.Request) (body []byte, err error) {
