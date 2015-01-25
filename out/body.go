@@ -9,6 +9,7 @@ var bodyFmt = `	+ Body
 
 			{{.JSONBody | indent}}
 
+
 `
 
 var bodyTmpl *template.Template

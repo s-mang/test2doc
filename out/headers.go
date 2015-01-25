@@ -5,6 +5,15 @@ import (
 	"text/template"
 )
 
+var headersBlacklist = map[string]bool{
+	"Accept":          true,
+	"Accept-Encoding": true,
+	"Accept-Language": true,
+	"Connection":      true,
+	"Content-Length":  true,
+	"User-Agent":      true,
+}
+
 var headersFmt = `	+ Headers
 
 			{{range $key, $vals := .Headers}}{{$key}}: {{$vals | commajoin}}
@@ -25,6 +34,16 @@ func init() {
 }
 
 func WriteHeaders(file *os.File, headers map[string][]string) (err error) {
+	for k, _ := range headers {
+		if headersBlacklist[k] {
+			delete(headers, k)
+		}
+	}
+
+	if len(headers) == 0 {
+		return
+	}
+
 	return headersTmpl.Execute(file, map[string]interface{}{
 		"Headers": headers,
 	})
