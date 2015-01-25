@@ -1,44 +1,36 @@
 package test2doc
 
 import (
-	"bytes"
-	"io/ioutil"
+	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gophergala/test2doc/out"
 )
 
-func HandlerWrapper(handler http.HandlerFunc, docFile *os.File) http.HandlerFunc {
+func HandlerWrapper(handler http.HandlerFunc, docFile *out.APIDoc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := payload(r)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		err = out.WriteHeaders(docFile, r.Header)
+		err := docFile.RecordRequest(r)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
 
-		err = out.WriteBody(docFile, string(body))
+		resp, err := docFile.RecordResponse(r, handler)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
 
-		handler(w, r)
-	}
-}
+		err = resp.Header().Write(w)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 
-func payload(r *http.Request) (body []byte, err error) {
-	body, err = ioutil.ReadAll(r.Body)
-	if err != nil {
+		w.WriteHeader(resp.Code)
+
+		fmt.Fprint(w, resp.Body.String())
 		return
 	}
-
-	r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-	return
 }

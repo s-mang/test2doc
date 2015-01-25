@@ -1,14 +1,10 @@
 package out
 
-import (
-	"os"
-	"text/template"
-)
+import "text/template"
 
 var bodyFmt = `	+ Body
 
 			{{.JSONBody | indent}}
-
 
 `
 
@@ -16,7 +12,7 @@ var bodyTmpl *template.Template
 
 func init() {
 	var err error
-	bodyTmpl = template.New("Headers").Funcs(template.FuncMap{"indent": IndentJSONBody})
+	bodyTmpl = template.New("Body").Funcs(template.FuncMap{"indent": IndentJSONBody})
 
 	bodyTmpl, err = bodyTmpl.Parse(bodyFmt)
 	if err != nil {
@@ -24,8 +20,12 @@ func init() {
 	}
 }
 
-func WriteBody(file *os.File, jsonBody string) (err error) {
-	return bodyTmpl.Execute(file, map[string]interface{}{
+func (doc *APIDoc) WriteBody(jsonBody string) (err error) {
+	if len(jsonBody) == 0 {
+		return
+	}
+
+	return bodyTmpl.Execute(doc.file, map[string]interface{}{
 		"JSONBody": jsonBody,
 	})
 }

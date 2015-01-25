@@ -1,9 +1,6 @@
 package out
 
-import (
-	"os"
-	"text/template"
-)
+import "text/template"
 
 var headersBlacklist = map[string]bool{
 	"Accept":          true,
@@ -11,6 +8,7 @@ var headersBlacklist = map[string]bool{
 	"Accept-Language": true,
 	"Connection":      true,
 	"Content-Length":  true,
+	"Content-Type":    true,
 	"User-Agent":      true,
 }
 
@@ -33,7 +31,7 @@ func init() {
 	}
 }
 
-func WriteHeaders(file *os.File, headers map[string][]string) (err error) {
+func (doc *APIDoc) WriteHeaders(headers map[string][]string) (err error) {
 	for k, _ := range headers {
 		if headersBlacklist[k] {
 			delete(headers, k)
@@ -44,7 +42,7 @@ func WriteHeaders(file *os.File, headers map[string][]string) (err error) {
 		return
 	}
 
-	return headersTmpl.Execute(file, map[string]interface{}{
+	return headersTmpl.Execute(doc.file, map[string]interface{}{
 		"Headers": headers,
 	})
 }
