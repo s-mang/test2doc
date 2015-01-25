@@ -20,9 +20,14 @@ func HandlerWrapper(handler http.HandlerFunc, docFile *os.File) http.HandlerFunc
 		err = out.WriteHeaders(docFile, r.Header)
 		if err != nil {
 			log.Println(err.Error())
+			return
 		}
 
-		log.Println("Body: ", string(body))
+		err = out.WriteBody(docFile, string(body))
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 
 		handler(w, r)
 	}

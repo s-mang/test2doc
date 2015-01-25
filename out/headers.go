@@ -5,23 +5,27 @@ import (
 	"text/template"
 )
 
-var headersTmpl = `+ Headers
+var headersFmt = `	+ Headers
 
-	{{range $key, $vals := .Headers}}{{$key}}: {{$vals | commajoin}}
-	{{end}}
+			{{range $key, $vals := .Headers}}{{$key}}: {{$vals | commajoin}}
+			{{end}}
+
 `
 
-func WriteHeaders(file *os.File, headers map[string][]string) (err error) {
-	t := template.New("Headers template")
+var headersTmpl *template.Template
 
-	t = t.Funcs(template.FuncMap{"commajoin": CommaJoinStrs})
+func init() {
+	var err error
+	headersTmpl = template.New("Headers").Funcs(template.FuncMap{"commajoin": CommaJoinStrs})
 
-	t, err = t.Parse(headersTmpl)
+	headersTmpl, err = headersTmpl.Parse(headersFmt)
 	if err != nil {
-		return err
+		panic(err.Error)
 	}
+}
 
-	return t.Execute(file, map[string]interface{}{
+func WriteHeaders(file *os.File, headers map[string][]string) (err error) {
+	return headersTmpl.Execute(file, map[string]interface{}{
 		"Headers": headers,
 	})
 }
