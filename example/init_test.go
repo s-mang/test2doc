@@ -28,12 +28,9 @@ type responseExpectation struct {
 }
 
 func init() {
-	wd, err := os.Getwd()
-	if err != nil {
-		panic(err.Error())
-	}
+	gopath := os.Getenv("GOPATH")
 
-	docFilePath := fmt.Sprintf("%s/%s", wd, docFileName)
+	docFilePath := fmt.Sprintf("%s/src/github.com/gophergala/test2doc/%s", gopath, docFileName)
 
 	desc := &testdoc.APIDescription{
 		APIBlueprintFormat: testdoc.APIBlueprintFormat,
