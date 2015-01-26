@@ -14,7 +14,7 @@ import (
 	"github.com/gophergala/test2doc/testrun"
 )
 
-const docFileName = "apidoc.md"
+const docFileName = "apiary.apib"
 
 var (
 	docFile *testdoc.APIDoc
