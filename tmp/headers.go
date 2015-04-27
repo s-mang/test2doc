@@ -31,7 +31,7 @@ func init() {
 	}
 }
 
-func (doc *APIDoc) WriteHeaders(headers map[string][]string) (err error) {
+func (doc *APIBlueprint) WriteHeaders(headers map[string][]string) (err error) {
 	for k, _ := range headers {
 		if headersBlacklist[k] {
 			delete(headers, k)

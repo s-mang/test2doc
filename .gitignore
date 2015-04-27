@@ -3,6 +3,9 @@
 *.a
 *.so
 
+blueprint/blueprint
+example/example
+
 # Folders
 _obj
 _test
@@ -17,7 +20,7 @@ _cgo_defun.c
 _cgo_gotypes.go
 _cgo_export.*
 
-_testmain.go
+.DS_Store
 
 *.exe
 *.test

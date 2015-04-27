@@ -10,14 +10,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gophergala/test2doc/testdoc"
-	"github.com/gophergala/test2doc/testrun"
+	"github.com/adams-sarah/test2doc/testdoc"
+	"github.com/adams-sarah/test2doc/testrun"
 )
 
 const docFileName = "apiary.apib"
 
 var (
-	docFile *testdoc.APIDoc
+	docFile *testdoc.APIBlueprint
 	server  *httptest.Server
 )
 
@@ -30,7 +30,7 @@ type responseExpectation struct {
 func init() {
 	gopath := os.Getenv("GOPATH")
 
-	docFilePath := fmt.Sprintf("%s/src/github.com/gophergala/test2doc/%s", gopath, docFileName)
+	docFilePath := fmt.Sprintf("%s/src/github.com/adams-sarah/test2doc/%s", gopath, docFileName)
 
 	desc := &testdoc.APIDescription{
 		APIBlueprintFormat: testdoc.APIBlueprintFormat,
@@ -39,7 +39,7 @@ func init() {
 		Description:        "The best place to host your code snippits!",
 	}
 
-	docFile = testdoc.NewAPIDoc(docFilePath, desc)
+	docFile = testdoc.NewAPIBlueprint(docFilePath, desc)
 
 	mux := http.NewServeMux()
 	addRoutes(mux)

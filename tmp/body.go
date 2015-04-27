@@ -20,7 +20,7 @@ func init() {
 	}
 }
 
-func (doc *APIDoc) WriteBody(jsonBody string) (err error) {
+func (doc *APIBlueprint) WriteBody(jsonBody string) (err error) {
 	if len(jsonBody) == 0 {
 		return
 	}

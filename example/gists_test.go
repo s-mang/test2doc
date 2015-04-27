@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophergala/test2doc/testdoc"
-	"github.com/gophergala/test2doc/testrun"
+	"github.com/adams-sarah/test2doc/testdoc"
+	"github.com/adams-sarah/test2doc/testrun"
 )
 
 type GistsGroup struct {

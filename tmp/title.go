@@ -27,7 +27,7 @@ func init() {
 	}
 }
 
-func (doc *APIDoc) WriteRequestTitle(description string) (err error) {
+func (doc *APIBlueprint) WriteRequestTitle(description string) (err error) {
 	title := Title{
 		Kind: RequestKind,
 		Properties: &RequestProperties{
@@ -37,7 +37,7 @@ func (doc *APIDoc) WriteRequestTitle(description string) (err error) {
 	return titleTmpl.Execute(doc.file, title)
 }
 
-func (doc *APIDoc) WriteResponseTitle(code int, contentType string) (err error) {
+func (doc *APIBlueprint) WriteResponseTitle(code int, contentType string) (err error) {
 	title := Title{
 		Kind: ResponseKind,
 		Properties: &ResponseProperties{

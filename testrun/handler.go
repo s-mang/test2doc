@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/gophergala/test2doc/testdoc"
+	"github.com/adams-sarah/test2doc/testdoc"
 )
 
-func NewTestServer(handler http.Handler, docFile *testdoc.APIDoc) *httptest.Server {
+func NewTestServer(handler http.Handler, docFile *testdoc.APIBlueprint) *httptest.Server {
 	return httptest.NewServer(handleAndRecord(handler, docFile))
 }
 
-func handleAndRecord(handler http.Handler, docFile *testdoc.APIDoc) http.HandlerFunc {
+func handleAndRecord(handler http.Handler, docFile *testdoc.APIBlueprint) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := docFile.RecordRequest(r)
 		if err != nil {

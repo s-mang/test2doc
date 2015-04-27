@@ -1,4 +1,4 @@
-package testdoc
+package tmp
 
 import (
 	"bytes"
@@ -8,12 +8,7 @@ import (
 	"os"
 )
 
-type APIDoc struct {
-	file *os.File
-	desc *APIDescription
-}
-
-func NewAPIDoc(filePath string, desc *APIDescription) *APIDoc {
+func NewAPIBlueprint(filePath string, desc *APIDescription) *APIBlueprint {
 	os.Remove(filePath) // if there is an error, we don't really care -- file likely does not exist
 
 	file, err := os.Create(filePath)
@@ -21,7 +16,7 @@ func NewAPIDoc(filePath string, desc *APIDescription) *APIDoc {
 		panic(err.Error())
 	}
 
-	doc := &APIDoc{
+	doc := &APIBlueprint{
 		file: file,
 		desc: desc,
 	}
@@ -34,7 +29,7 @@ func NewAPIDoc(filePath string, desc *APIDescription) *APIDoc {
 	return doc
 }
 
-func (doc *APIDoc) RecordRequest(r *http.Request) (err error) {
+func (doc *APIBlueprint) RecordRequest(r *http.Request) (err error) {
 	body, err := payload(r)
 	if err != nil {
 		return err
@@ -53,7 +48,7 @@ func (doc *APIDoc) RecordRequest(r *http.Request) (err error) {
 	return doc.WriteBody(string(body))
 }
 
-func (doc *APIDoc) RecordResponse(r *http.Request, handler http.Handler) (resp *httptest.ResponseRecorder, err error) {
+func (doc *APIBlueprint) RecordResponse(r *http.Request, handler http.Handler) (resp *httptest.ResponseRecorder, err error) {
 	resp = httptest.NewRecorder()
 	handler.ServeHTTP(resp, r)
 

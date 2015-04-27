@@ -31,7 +31,7 @@ func init() {
 	}
 }
 
-func (doc *APIDoc) WriteDescription() (err error) {
+func (doc *APIBlueprint) WriteDescription() (err error) {
 	if doc.desc == nil {
 		doc.desc = &APIDescription{
 			APIBlueprintFormat: APIBlueprintFormat,
