@@ -3,19 +3,12 @@ package blueprint
 type Resource struct {
 	Name        string
 	Description string
-	Parameters  []*Parameter
+	Parameters  []*api.Parameter
 	Actions     []*Action
 
 	// Todo:
-	// - Attributes
-	// - Model
-}
-
-func NewResource(name, description string) *Resource {
-	return &Resource{
-		Name:        name,
-		Description: description,
-	}
+	// Attributes
+	// Model
 }
 
 func (group *ResourceGroup) SetParameters(resource *Resource) {

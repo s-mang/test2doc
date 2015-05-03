@@ -32,11 +32,11 @@ func main() {
 						Description: "A specific weather-foo.com account-holder",
 						Parameters: []*Parameter{
 							&Parameter{
-								Name:         "id",
-								ExampleValue: "1",
-								Type:         Number,
-								IsRequired:   true,
-								Description:  "user account identifier",
+								Name:        "id",
+								Value:       "1",
+								Type:        Number,
+								IsRequired:  true,
+								Description: "user account identifier",
 							},
 						},
 						Actions: []*Action{
