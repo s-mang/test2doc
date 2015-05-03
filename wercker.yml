@@ -1,5 +1,5 @@
 # use the default golang container from Docker Hub
-box: wercker/golang
+box: golang
 build:
   steps:
     # golint step!
