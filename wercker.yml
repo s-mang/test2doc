@@ -11,6 +11,7 @@ build:
         name: go get
         code: |
           go get ./...
+          go get github.com/adams-sarah/prettytest
 
     - script:
         name: go build
