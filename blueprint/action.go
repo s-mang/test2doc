@@ -1,5 +1,7 @@
 package blueprint
 
+import "github.com/adams-sarah/test2doc/blueprint/api"
+
 type Action struct {
 	Name        string
 	Description string

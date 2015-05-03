@@ -6,22 +6,24 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/adams-sarah/test2doc/testdoc"
+	"github.com/adams-sarah/test2doc/blueprint"
 )
 
-func NewTestServer(handler http.Handler, docFile *testdoc.APIBlueprint) *httptest.Server {
-	return httptest.NewServer(handleAndRecord(handler, docFile))
+// TODO: filter out 404 responses
+
+func NewTestServer(handler http.Handler, apib *blueprint.APIBlueprint) *httptest.Server {
+	return httptest.NewServer(handleAndRecord(handler, apib))
 }
 
-func handleAndRecord(handler http.Handler, docFile *testdoc.APIBlueprint) http.HandlerFunc {
+func handleAndRecord(handler http.Handler, apib *blueprint.APIBlueprint) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		err := docFile.RecordRequest(r)
+		err := apib.RecordRequest(r)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
 
-		resp, err := docFile.RecordResponse(r, handler)
+		resp, err := apib.RecordResponse(r, handler)
 		if err != nil {
 			log.Println(err.Error())
 			return
