@@ -1,37 +1,30 @@
-package blueprint
+package api
 
-import (
-	"bytes"
-	"net/http"
-)
+import "net/http"
 
 type Request struct {
 	Name        string
 	Description string
-	Headers     http.Header
-	Body        *bytes.Buffer
+	Header      http.Header
+	Body        []byte
 
 	// Todo:
 	// Attributes
 	// Schema
 }
 
-func NewRequest(name, description string, req *http.Request) (breq *Request, err error) {
-	var body *bytes.Buffer
-
-	body, err = copyBody(req.Body)
+func NewRequest(name, description string, req *http.Request) (*Request, error) {
+	body1, body2, err := cloneBody(req.Body)
 	if err != nil {
-		return
+		return nil, err
 	}
 
+	req.Body = nopCloser{body1}
+
 	return &Request{
-		httpIO{
-			Name:        name,
-			Description: description,
-			Header:      req.Header,
-			ContentType: req.Header.Get("Content-Type"),
-			Body:        body,
-		},
-		nil,
+		Name:        name,
+		Description: description,
+		Header:      req.Header,
+		Body:        body2.Bytes(),
 	}, nil
 }

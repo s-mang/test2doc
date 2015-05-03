@@ -1,4 +1,4 @@
-package blueprint
+package api
 
 import (
 	"bytes"
@@ -6,14 +6,22 @@ import (
 	"io/ioutil"
 )
 
-func copyBody(r io.Reader) (buf *bytes.Buffer, err error) {
-	body, err := ioutil.ReadAll(r)
+type nopCloser struct {
+	io.Reader
+}
+
+func (nopCloser) Close() error { return nil }
+
+func cloneBody(r io.Reader) (*bytes.Buffer, *bytes.Buffer, error) {
+	var clone1, clone2 bytes.Buffer
+
+	rBytes, err := ioutil.ReadAll(r)
 	if err != nil {
-		return buf, err
+		return &clone1, &clone2, err
 	}
 
-	buf = bytes.NewBuffer(body)
-	r = bytes.NewBuffer(body)
+	mw := io.MultiWriter(&clone1, &clone2)
+	_, err = mw.Write(rBytes)
 
-	return
+	return &clone1, &clone2, err
 }

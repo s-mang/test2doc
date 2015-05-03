@@ -1,7 +1,6 @@
-package blueprint
+package api
 
 import (
-	"bytes"
 	"net/http"
 	"net/http/httptest"
 )
@@ -9,30 +8,27 @@ import (
 type Response struct {
 	StatusCode  int
 	Description string
-	Headers     http.Header
-	Body        *bytes.Buffer
+	Header      http.Header
+	Body        []byte
 
 	// Todo:
 	// Attributes
 	// Schema
 }
 
-func NewResponse(name, description string, w httptest.ResponseRecorder) (resp *Response, err error) {
-	var body *bytes.Buffer
+func NewResponse(description string, w *httptest.ResponseRecorder) (*Response, error) {
 
-	body, err = copyBody(w.Body)
+	body1, body2, err := cloneBody(w.Body)
 	if err != nil {
-		return
+		return nil, err
 	}
 
+	w.Body = body1
+
 	return &Response{
-		w.Code,
-		httpIO{
-			Name:        name,
-			Description: description,
-			Header:      w.Header(),
-			ContentType: w.Header().Get("Content-Type"),
-			Body:        body,
-		},
+		StatusCode:  w.Code,
+		Description: description,
+		Header:      w.Header(),
+		Body:        body2.Bytes(),
 	}, nil
 }

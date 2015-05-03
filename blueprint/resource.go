@@ -10,7 +10,3 @@ type Resource struct {
 	// Attributes
 	// Model
 }
-
-func (group *ResourceGroup) SetParameters(resource *Resource) {
-	group.Resources = append(group.Resources, resource)
-}
