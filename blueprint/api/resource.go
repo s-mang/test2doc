@@ -1,14 +1,12 @@
-package blueprint
-
-import "github.com/adams-sarah/test2doc/blueprint/api"
+package api
 
 type Resource struct {
 	Name        string
 	Description string
-	Parameters  []*api.Parameter
+	Model       *Model
+	URL         []*URL
 	Actions     []*Action
 
 	// Todo:
 	// Attributes
-	// Model
 }

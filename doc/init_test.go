@@ -1,4 +1,4 @@
-package testrun
+package doc
 
 import (
 	"testing"

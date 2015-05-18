@@ -1,4 +1,4 @@
-package testrun
+package doc
 
 import (
 	"net/http"
@@ -8,6 +8,10 @@ import (
 )
 
 // TODO: filter out 404 responses
+
+// APIDOC(Name): Some API
+// APIDOC(Description): A nice synopsis of 'Some API'
+// APIDOC(Host): http://httpbin.org
 
 func NewTestServer(handler http.Handler, apib *blueprint.APIBlueprint) *httptest.Server {
 	return httptest.NewServer(handleAndRecord(handler, apib))

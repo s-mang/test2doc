@@ -1,12 +1,16 @@
 package api
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Request struct {
 	Name        string
 	Description string
 	Header      http.Header
 	Body        []byte
+	Response    *Response
+	// Responses []*Response
 
 	// Todo:
 	// Attributes
