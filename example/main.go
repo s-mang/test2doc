@@ -5,10 +5,19 @@ import (
 	"net/http"
 )
 
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", HandleInfo)
-	mux.HandleFunc("/greet", HandleGreeting)
+const (
+	InfoPath     = "/"
+	GreetingPath = "/greet"
+)
 
+func main() {
+	mux := newMux()
 	log.Fatal(http.ListenAndServe(":8080", mux))
+}
+
+func newMux() *http.ServeMux {
+	mux := http.NewServeMux()
+	mux.HandleFunc(InfoPath, HandleInfo)
+	mux.HandleFunc(GreetingPath, HandleGreeting)
+	return mux
 }
