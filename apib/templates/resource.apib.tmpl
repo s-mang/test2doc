@@ -1,0 +1,10 @@
+## {{.Name}} [{{.URL.PathWithParamNames}}]
+{{.Description}}
+
+{{if .URL.Parameters}}
+{{template "parameters" .URL}}
+{{end}}
+
+{{range $action := .Actions}}
+{{template "action" $action}}
+{{end}}

@@ -1,4 +1,4 @@
-package api
+package apib
 
 // TODO: type ??
 type Model interface{}

@@ -1,0 +1,7 @@
+{{if .Headers}}
+	
+	+ Headers
+		{{range $name, $vals := .Headers}}
+		{{$name}}: {{$vals | commaJoin}}
+		{{end}}
+{{end}}

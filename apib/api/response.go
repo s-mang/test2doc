@@ -11,7 +11,7 @@ type Response struct {
 	Header      http.Header
 	Body        []byte
 
-	// Todo:
+	// TODO:
 	// Attributes
 	// Schema
 }
@@ -31,4 +31,12 @@ func NewResponse(description string, w *httptest.ResponseRecorder) (*Response, e
 		Header:      w.Header(),
 		Body:        body2.Bytes(),
 	}, nil
+}
+
+func (r *Response) ContentType() string {
+	return r.Header.Get("Content-Type")
+}
+
+func (r *Response) BodyStr() string {
+	return string(r.Body)
 }

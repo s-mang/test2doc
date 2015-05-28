@@ -4,9 +4,8 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
+	"fmt"
 	"net/url"
-	"os"
 )
 
 func main() {
@@ -18,7 +17,7 @@ func main() {
 	jsonBody := "application/json"
 	body := bytes.NewBufferString(`"lastName": "Gopher"`)
 
-	apib := &APIBlueprint{
+	doc := &APIBlueprint{
 		Metadata:    NewMetadata("http://www.weather-foo.com"),
 		Name:        "Weather Foo API",
 		Description: "An API for all your weather foo.",
@@ -82,11 +81,11 @@ func main() {
 		},
 	}
 
-	b, err := json.MarshalIndent(apib, "", "  ")
+	var buf bytes.Buffer
+	err = docTemplate.Execute(&buf, doc)
 	if err != nil {
-		panic("json.MarshalIndent: " + err.Error())
+		panic(err.Error())
 	}
 
-	os.Stdout.Write(b)
-
+	fmt.Println(buf.String())
 }

@@ -1,3 +1,5 @@
+//go:generate stringer -type=ParameterType
+
 package api
 
 type ParameterType int
@@ -15,6 +17,6 @@ type Parameter struct {
 	Type        ParameterType
 	IsRequired  bool
 
-	// Todo:
+	// TODO:
 	// DefaultValue
 }
