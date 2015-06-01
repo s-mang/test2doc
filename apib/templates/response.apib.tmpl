@@ -1,8 +1,0 @@
-{{if .ContentType}}
-+ Response {{.StatusCode}} ({{.ContentType}})
-{{else}}
-+ Response {{.StatusCode}} 
-{{end}}
-
-{{template "headers" }}
-{{template "body" }}

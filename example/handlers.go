@@ -12,7 +12,8 @@ type Foo struct {
 	R string
 }
 
-// HandleInfo serves basic server information to the client
+// HandleInfo serves basic info about the Server resource to
+// the client
 func HandleInfo(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		handleNotFound(w)
@@ -22,7 +23,7 @@ func HandleInfo(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "TODO")
 }
 
-// HandleGreeting is an API action for the Foo resource
+// HandleGreeting greets the client as the Foo resource
 func HandleGreeting(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		handleNotFound(w)

@@ -7,17 +7,27 @@ type tmpSection struct {
 }
 
 var (
-	tmpAPIBlueprint = tmpSection{
-		title: "JSON Placeholder API",
-		desc:  "Fake Online REST API for Testing and Prototyping",
+	tmpDoc = &APIBlueprint{
+		Title:       "JSON Placeholder API",
+		Description: "Fake Online REST API for Testing and Prototyping",
+		Metadata: &Metadata{
+			Format: FORMAT,
+			Host:   "http://jsonplaceholder.typicode.com",
+		},
+		ResourceGroups: []*ResourceGroup{
+			&ResourceGroup{
+				Title:       "A Lovely Resource Group",
+				Description: "All CRUD endpoints for A Lovely Resource Group",
+			},
+			&ResourceGroup{
+				Title:       "An Awesome Resource Group",
+				Description: "All non-CRUD endpoints",
+			},
+		},
 	}
-	tmpMetadataHost  = "http://jsonplaceholder.typicode.com"
-	tmpResourceGroup = tmpSection{
-		title: "A Lovely Resource Group",
-		desc:  "All CRUD endpoints for A Lovely Resource Group",
-	}
-	tmpResource = tmpSection{
-		title: "The Fanciest Resource",
-		desc:  "This resource is just like all the others.",
+
+	tmpResource = Resource{
+		Title:       "The Fanciest Resource",
+		Description: "This resource is just like all the others.",
 	}
 )

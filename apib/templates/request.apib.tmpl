@@ -1,8 +1,0 @@
-{{if .ContentType}}
-+ Request ({{.ContentType}})
-{{else if .Header || .Body}}
-+ Request
-{{end}}
-
-{{template "headers" .}}
-{{template "body" .}}

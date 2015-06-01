@@ -1,4 +1,4 @@
-package api
+package apib
 
 import (
 	"bytes"

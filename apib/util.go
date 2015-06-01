@@ -1,4 +1,4 @@
-package api
+package apib
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+	"text/template"
 )
 
 type nopCloser struct {
@@ -29,7 +30,17 @@ func cloneBody(r io.Reader) (*bytes.Buffer, *bytes.Buffer, error) {
 	return &clone1, &clone2, err
 }
 
-func CommaJoin(args ...interface{}) string {
+func render(tmpl *template.Template, i interface{}) string {
+	var buf bytes.Buffer
+	err := tmpl.Execute(&buf, i)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return buf.String()
+}
+
+func commaJoin(args ...interface{}) string {
 	var strList []string
 
 	for _, arg := range args {

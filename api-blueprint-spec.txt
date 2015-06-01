@@ -1,0 +1,107 @@
+Key:
+-------------
+< > = required, insert your replacement
+      eg. '<API title>' = 'Widget Monitoring API'
+* * = optional
+      eg. '*(<content-type>)*' IN ['',  'application/json']
+
+
+Structure:
+-------------
+
+FORMAT: 1A
+HOST: https://<api-domain.net>
+
+# <title>
+<description>
+
+# Group <name  -resource-group>
+<description>
+
+## <name of resource> [</resource/uri/with/{<param>}]
+<description>
+
++ Parameters
+    + <param>: `<example value>` (<type, eg. string>) - <description>
+
++ Model (<content-type, eg. application/json>)
+    
+    ```<language, eg. js>
+    <example-structure, eg. { "temp": "21C" } >
+    ```
+
+### <request #1 title> [<request method, eg. GET>]
+<description>
+
++ Response [status code, eg. 200]
+    
+    [<resource name>][]
+
+### <request #2 title> [<request method, eg. DELETE>]
+<description>
+
++ Response <status code> *(<content-type, eg. text/plain>)*
+
+    + Headers
+
+            <header, eg. X-Foo-Bar>: <example-value, eg. baz>
+
+    + Body
+
+            <content in above content-type, eg. Hello, world!>
+
+
+### <request #3 title> [<request method, eg. POST>]
+<description>
+
++ Request (<content-type, eg. application/json>)
+
+        {
+            "<attr1>": <val1>,
+            "<attr2>": <val2>,
+            ...
+        }
+
++ Response <status code>
+
+    ```*<language, eg. js>*
+    { 
+        "attr1": <val1>,
+        "attr2": <val2>,
+        ...
+    }
+    ```
+
+
+## <resource name> [/uri{?<param>}]
+<description>
+
++ Parameters
+    + param (<required|optional>, <type, eg. number>, `<example value, eg. 1>`) ... <description>
+
+### <request #1 title> [<request method, eg. PUT]
+<description>
+
++ Request (<content-type, eg. application/json>)
+    
+    + Headers
+
+            <header, eg. X-Foo-Bar>: <example-value, eg. baz>
+
+    + Body
+
+        {
+            "<attr1>": <val1>,
+            "<attr2>": <val2>,
+            ...
+        }
+            
+
++ Response 201
+    
+        {
+            "<attr1>": <val1>,
+            "<attr2>": <val2>,
+            ...
+        }
+    

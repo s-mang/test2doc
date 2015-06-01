@@ -1,16 +1,35 @@
-package api
+package apib
 
 import (
 	"net/http"
+	"text/template"
 )
 
+var (
+	requestTmpl *template.Template
+	requestFmt  = `{{if or .Header .Body}}
++ Request {{with .Header.ContentType}}({{.}}){{end}}
+{{end}}
+{{.Header.Render}}
+{{.Body.Render}}
+`
+)
+
+func init() {
+	requestTmpl = template.Must(template.New("request").Parse(requestFmt))
+}
+
 type Request struct {
-	Header http.Header
-	Body   []byte
+	Header Header
+	Body   Body
 
 	// TODO:
 	// Attributes
 	// Schema
+}
+
+func (r *Request) Render() string {
+	return render(requestTmpl, r)
 }
 
 func NewRequest(req *http.Request) (*Request, error) {
@@ -22,18 +41,14 @@ func NewRequest(req *http.Request) (*Request, error) {
 	req.Body = nopCloser{body1}
 
 	return &Request{
-		Header: req.Header,
+		Header: Header(req.Header),
 		Body:   body2.Bytes(),
 	}, nil
 }
 
-func (r *Request) ContentType() string {
-	return r.Header.Get("Content-Type")
-}
-
 func (r *Request) BodyStr() (body string) {
 	body = string(r.Body)
-	if r.ContentType() == "application/json" {
+	if r.Header.ContentType() == "application/json" {
 		var err error
 		body, err = indentJSONBody(string(r.Body))
 		if err != nil {

@@ -1,9 +1,0 @@
-FORMAT: {{.Metadata.Format}}
-HOST: {{.Metadata.Host}}
-
-# {{.Title}}
-{{.Description}}
-
-{{range $group := .ResourceGroups}}
-{{template "resource_group" $group}}
-{{end}}

@@ -1,5 +1,9 @@
 package main
 
+// JSON Placeholder API
+// Fake Online REST API for Testing and Prototyping
+// http://jsonplaceholder.typicode.com
+
 import (
 	"log"
 	"net/http"

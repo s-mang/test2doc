@@ -9,42 +9,36 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
-
-	"github.com/adams-sarah/test2doc/apib/api"
 )
 
 const (
 	FORMAT  = "1A"
 	outFile = "apidoc.apib"
+)
 
-	docFmt = `FORMAT: {{.Metadata.Format}}
+var (
+	apibTmpl *template.Template
+	apibFmt  = `FORMAT: {{.Metadata.Format}}
 HOST: {{.Metadata.Host}}
 
 # {{.Title}}
 {{.Description}}
 
+{{range .ResourceGroups}}
+{{.Render}}
+{{end}}
 `
 )
 
-var (
-	docTmpl *template.Template
-)
-
 func init() {
-	var err error
-	docTmpl = template.New("doc")
-
-	docTmpl, err = docTmpl.Parse(docFmt)
-	if err != nil {
-		panic(err.Error())
-	}
+	apibTmpl = template.Must(template.New("apib").Parse(apibFmt))
 }
 
 type APIBlueprint struct {
 	Title          string
 	Description    string
 	Metadata       *Metadata
-	ResourceGroups []*api.ResourceGroup
+	ResourceGroups []*ResourceGroup
 	file           *os.File
 
 	// TODO:
@@ -65,21 +59,14 @@ func NewAPIBlueprint(outDir string) (doc *APIBlueprint, err error) {
 		return
 	}
 
-	doc = &APIBlueprint{
-		Title:       tmpAPIBlueprint.title,
-		Description: tmpAPIBlueprint.desc,
-		Metadata: &Metadata{
-			Format: FORMAT,
-			Host:   tmpMetadataHost,
-		},
-	}
+	doc = tmpDoc
+	doc.file = fi
 
-	err = docTmpl.Execute(fi, doc)
+	err = apibTmpl.Execute(fi, doc)
 	if err != nil {
 		return
 	}
 
-	doc.file = fi
 	return
 }
 
