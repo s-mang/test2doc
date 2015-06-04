@@ -14,11 +14,6 @@ build:
           go get github.com/adams-sarah/prettytest
 
     - script:
-        name: go build
-        code: |
-          go build ./...
-
-    - script:
         name: go test
         code: |
           go test ./...

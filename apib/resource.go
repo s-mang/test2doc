@@ -28,7 +28,7 @@ type Resource struct {
 	Description string
 	//Model       *Model
 	URL     *URL
-	Actions *[]Action
+	Actions []*Action
 
 	// TODO:
 	// Attributes

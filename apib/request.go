@@ -1,6 +1,7 @@
 package apib
 
 import (
+	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -46,16 +47,38 @@ func NewRequest(req *http.Request) (*Request, error) {
 	}, nil
 }
 
-func (r *Request) BodyStr() (body string) {
-	body = string(r.Body)
-	if r.Header.ContentType() == "application/json" {
-		var err error
-		body, err = indentJSONBody(string(r.Body))
-		if err != nil {
-			panic(err.Error())
-		}
+func (r *Request) ContentType() string {
+	return r.Header.ContentType()
+}
+
+func (r *Request) BodyStr() string {
+	fbody, err := formatBody(string(r.Body), r.ContentType())
+	if err != nil {
+		panic(err.Error())
 	}
 
-	return
+	return fbody
+}
 
+func RecordRequest(doc *Doc, req *http.Request) error {
+	body, err := getPayload(req)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(body)
+
+	// err = doc.WriteRequestTitle("")
+	// if err != nil {
+	// 	return err
+	// }
+
+	// err = doc.WriteHeaders(req.Header)
+	// if err != nil {
+	// 	return err
+	// }
+
+	// return doc.WriteBody(string(body))
+
+	return nil
 }

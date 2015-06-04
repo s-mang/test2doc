@@ -17,7 +17,7 @@ const (
 
 var (
 	parameterTmpl *template.Template
-	parameterFmt  = `	+ {{.Title}} {{.Value.Quote}} ({{.Type.String}}) - {{.Description}}`
+	parameterFmt  = `	+ {{.Name}} {{.Value.Quote}} ({{.Type.String}}) - {{.Description}}`
 )
 
 func init() {
@@ -25,7 +25,7 @@ func init() {
 }
 
 type Parameter struct {
-	Title       string
+	Name        string
 	Description string
 	Value       ParameterValue
 	Type        ParameterType
@@ -41,6 +41,10 @@ func (p *Parameter) Render() string {
 
 type ParameterValue string
 
-func (v ParameterValue) Quote() string {
-	return fmt.Sprintf("`%s`", string(v))
+func (val ParameterValue) Quote() (qval string) {
+	if len(val) > 0 {
+		qval = fmt.Sprintf("`%s`", string(val))
+	}
+
+	return
 }

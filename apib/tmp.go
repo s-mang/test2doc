@@ -7,7 +7,7 @@ type tmpSection struct {
 }
 
 var (
-	tmpDoc = &APIBlueprint{
+	tmpDoc = &Doc{
 		Title:       "JSON Placeholder API",
 		Description: "Fake Online REST API for Testing and Prototyping",
 		Metadata: &Metadata{

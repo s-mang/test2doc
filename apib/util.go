@@ -58,6 +58,14 @@ func commaJoin(args ...interface{}) string {
 	return strings.Join(strList, ", ")
 }
 
+func formatBody(body, contentType string) (fbody string, err error) {
+	if contentType == "application/json" {
+		body, err = indentJSONBody(body)
+	}
+
+	return
+}
+
 func indentJSONBody(bodyStr string) (outStr string, err error) {
 	var outJSON bytes.Buffer
 	err = json.Indent(&outJSON, []byte(bodyStr), "\t\t\t", "\t")

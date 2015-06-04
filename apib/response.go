@@ -21,7 +21,7 @@ func init() {
 type Response struct {
 	StatusCode  int
 	Description string
-	Header      http.Header
+	Header      Header
 	Body        []byte
 
 	// TODO:
@@ -41,7 +41,7 @@ func NewResponse(description string, w *httptest.ResponseRecorder) (*Response, e
 	return &Response{
 		StatusCode:  w.Code,
 		Description: description,
-		Header:      w.Header(),
+		Header:      Header(w.Header()),
 		Body:        body2.Bytes(),
 	}, nil
 }
@@ -51,9 +51,32 @@ func (r *Response) Render() string {
 }
 
 func (r *Response) ContentType() string {
-	return r.Header.Get("Content-Type")
+	return r.Header.ContentType()
 }
 
 func (r *Response) BodyStr() string {
-	return string(r.Body)
+	fbody, err := formatBody(string(r.Body), r.ContentType())
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return fbody
+}
+
+func RecordResponse(doc *Doc, handler http.Handler, req *http.Request) (resp *httptest.ResponseRecorder, err error) {
+	resp = httptest.NewRecorder()
+	handler.ServeHTTP(resp, req)
+
+	// err = doc.WriteResponseTitle(resp.Code, resp.Header().Get("Content-Type"))
+	// if err != nil {
+	// 	return
+	// }
+
+	// err = doc.WriteHeaders(resp.Header())
+	// if err != nil {
+	// 	return
+	// }
+
+	// err = doc.WriteBody(string(resp.Body.String()))
+	return
 }

@@ -7,11 +7,11 @@ import (
 	"github.com/adams-sarah/test2doc/apib"
 )
 
-var doc *apib.APIBlueprint
+var doc *apib.Doc
 
 // TODO: filter out 404 responses
 func NewTestServer(handler http.Handler, outDir string) (s *httptest.Server, err error) {
-	doc, err = apib.NewAPIBlueprint(outDir)
+	doc, err = apib.NewDoc(outDir)
 	if err != nil {
 		return
 	}
@@ -19,9 +19,9 @@ func NewTestServer(handler http.Handler, outDir string) (s *httptest.Server, err
 	return httptest.NewServer(handleAndRecord(handler, doc)), nil
 }
 
-func handleAndRecord(handler http.Handler, doc *apib.APIBlueprint) http.HandlerFunc {
+func handleAndRecord(handler http.Handler, doc *apib.Doc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		// err := doc.RecordRequest(r)
+		// err := apib.RecordRequest(doc, r)
 		// if err != nil {
 		// 	log.Println(err.Error())
 		// 	return

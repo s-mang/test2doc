@@ -13,7 +13,7 @@ func (t *suite) TestNewRequest_RequestBodyIsCorrectlyCopied() {
 	req, err := http.NewRequest("POST", "http://httpbin.org/post", body)
 	t.Must(t.Nil(err))
 
-	apiReq, err := NewRequest("Example POST", "POST some example JSON", req)
+	apiReq, err := NewRequest(req)
 	t.Must(t.Nil(err))
 
 	t.Equal(string(apiReq.Body), testRequestBody)
@@ -24,10 +24,20 @@ func (t *suite) TestNewRequest_OriginalRequestBodyDoesNotChange() {
 	req, err := http.NewRequest("POST", "http://httpbin.org/post", body)
 	t.Must(t.Nil(err))
 
-	_, err = NewRequest("Example POST", "POST some example JSON", req)
+	_, err = NewRequest(req)
 	t.Must(t.Nil(err))
 
 	httpReqBody, err := ioutil.ReadAll(req.Body)
 	t.Must(t.Nil(err))
 	t.Equal(string(httpReqBody), testRequestBody)
+}
+
+// TODO
+func (t *suite) TestNewRequest_404DontRecord() {
+
+}
+
+// TODO
+func (t *suite) TestNewRequest_PanicMidRequest() {
+
 }
