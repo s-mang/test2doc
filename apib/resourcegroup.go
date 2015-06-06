@@ -4,12 +4,11 @@ import "text/template"
 
 var (
 	resourceGroupTmpl *template.Template
-	resourceGroupFmt  = `# Group {{.Title}}
+	resourceGroupFmt  = `
+# Group {{.Title}}
 {{.Description}}
-
 {{range .Resources}}
-{{.Render}}
-{{end}}`
+{{.Render}}{{end}}`
 )
 
 func init() {

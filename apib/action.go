@@ -6,11 +6,10 @@ var (
 	actionTmpl *template.Template
 	actionFmt  = `### {{.Title}} [{{.HTTPMethod}}]
 {{.Description}}
-
-{{.Request.Render}}
-
-{{.Response.Render}}
-`
+{{with .Request}}
+{{.Render}}{{end}}
+{{with .Response}}
+{{.Render}}{{end}}`
 )
 
 func init() {

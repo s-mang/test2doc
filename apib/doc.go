@@ -21,11 +21,8 @@ HOST: {{.Metadata.Host}}
 
 # {{.Title}}
 {{.Description}}
-
 {{range .ResourceGroups}}
-{{.Render}}
-{{end}}
-`
+{{.Render}}{{end}}`
 )
 
 func init() {

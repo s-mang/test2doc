@@ -9,8 +9,7 @@ import (
 var (
 	requestTmpl *template.Template
 	requestFmt  = `{{if or .Header .Body}}
-+ Request {{with .Header.ContentType}}({{.}}){{end}}
-{{end}}
++ Request {{with .Header}}({{.ContentType}}){{end}}{{end}}
 {{.Header.Render}}
 {{.Body.Render}}
 `

@@ -4,19 +4,12 @@ import "text/template"
 
 var (
 	resourceTmpl *template.Template
-	resourceFmt  = `## {{.Title}} [{{.URL.ParemeterizedPath}}]
+	resourceFmt  = `## {{.Title}} [{{with .URL}}{{.ParameterizedPath}}{{end}}]
 {{.Description}}
-
-{{with .URL.Parameters}}
-+ Parameters
+{{with .URL}}{{with .Parameters}}+ Parameters
 {{range .}}
-{{.Render}}
-{{end}}{{end}}
-
-{{range .Actions}}
-{{.Render}}
-{{end}}
-`
+{{.Render}}{{end}}{{end}}{{end}}{{range .Actions}}
+{{.Render}}{{end}}`
 )
 
 func init() {

@@ -10,8 +10,7 @@ var (
 	headerFmt  = `
 	+ Headers
 		{{range $name, $vals := .}}
-		{{$name}}: {{$vals | commaJoin}}
-		{{end}}
+		{{$name}}: {{$vals | commaJoin}}{{end}}
 `
 )
 
