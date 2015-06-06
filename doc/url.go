@@ -1,4 +1,4 @@
-package apib
+package doc
 
 import "net/url"
 

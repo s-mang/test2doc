@@ -1,49 +1,76 @@
 package doc
 
 import (
+	"bytes"
+	"io/ioutil"
 	"net/http"
-	"net/http/httptest"
-
-	"github.com/adams-sarah/test2doc/apib"
+	"os"
+	"path/filepath"
+	"text/template"
 )
 
-var doc *apib.Doc
+const (
+	FORMAT  = "1A"
+	outFile = "apidoc.apib"
+)
 
-// TODO: filter out 404 responses
-func NewTestServer(handler http.Handler, outDir string) (s *httptest.Server, err error) {
-	doc, err = apib.NewDoc(outDir)
+var (
+	docTmpl *template.Template
+	docFmt  = `FORMAT: {{.Metadata.Format}}
+HOST: {{.Metadata.Host}}
+
+# {{.Title}}
+{{.Description}}
+{{range .ResourceGroups}}
+{{.Render}}{{end}}`
+)
+
+func init() {
+	docTmpl = template.Must(template.New("doc").Parse(docFmt))
+}
+
+type Doc struct {
+	Title          string
+	Description    string
+	Metadata       *Metadata
+	ResourceGroups []*ResourceGroup
+	file           *os.File
+
+	// TODO:
+	// DataStructures
+}
+
+type Metadata struct {
+	Format string
+	Host   string
+}
+
+func NewDoc(outDir string) (doc *Doc, err error) {
+	var fi *os.File
+
+	outPath := filepath.Join(outDir, outFile)
+	fi, err = os.Create(outPath)
 	if err != nil {
 		return
 	}
 
-	return httptest.NewServer(handleAndRecord(handler, doc)), nil
+	doc = tmpDoc
+	doc.file = fi
+
+	err = docTmpl.Execute(fi, doc)
+	if err != nil {
+		return
+	}
+
+	return
 }
 
-func handleAndRecord(handler http.Handler, doc *apib.Doc) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		// err := apib.RecordRequest(doc, r)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
-
-		// resp, err := doc.RecordResponse(r, handler)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
-
-		// err = resp.Header().Write(w)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
-
-		// w.WriteHeader(resp.Code)
-
-		// fmt.Fprint(w, resp.Body.String())
-
-		// TODO: remove
-		handler.ServeHTTP(w, req)
+func getPayload(req *http.Request) (body []byte, err error) {
+	body, err = ioutil.ReadAll(req.Body)
+	if err != nil {
+		return
 	}
+
+	req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	return
 }

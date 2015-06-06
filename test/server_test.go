@@ -1,4 +1,4 @@
-package apib
+package test
 
 // TODO
 func (t *suite) TestNewTestServer() {
@@ -6,6 +6,6 @@ func (t *suite) TestNewTestServer() {
 }
 
 // TODO
-func (t *suite) TestNewTestServer_OutDirDNE() {
+func (t *suite) TestNewTestServer_outDirDNE() {
 
 }

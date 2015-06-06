@@ -1,4 +1,4 @@
-package apib
+package test
 
 import (
 	"testing"

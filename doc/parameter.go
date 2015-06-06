@@ -1,6 +1,6 @@
 //go:generate stringer -type=ParameterType
 
-package apib
+package doc
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package apib
+package doc
 
 // TODO
 func (t *suite) TestParameterizedPathForURL() {

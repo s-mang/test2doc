@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/adams-sarah/prettytest"
-	"github.com/adams-sarah/test2doc/doc"
+	"github.com/adams-sarah/test2doc/test"
 )
 
 var server *httptest.Server
@@ -17,7 +17,7 @@ type mainSuite struct {
 func TestRunner(t *testing.T) {
 	var err error
 
-	server, err = doc.NewTestServer(newMux(), ".")
+	server, err = test.NewServer(newMux(), ".")
 	if err != nil {
 		panic(err.Error())
 	}
