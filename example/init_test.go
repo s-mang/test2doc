@@ -17,7 +17,7 @@ type mainSuite struct {
 func TestRunner(t *testing.T) {
 	var err error
 
-	server, err = test.NewServer(newMux(), ".")
+	server, err = test.NewServer(newRouter(), ".")
 	if err != nil {
 		panic(err.Error())
 	}
