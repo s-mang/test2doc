@@ -1,28 +1,53 @@
 package main
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 func (t *mainSuite) TestHandleGetFoos() {
-	resp, err := http.Get(server.URL + "/foos")
+	urlPath, err := router.Get("HandleGetFoos").URL()
+	t.Must(t.Nil(err))
+
+	resp, err := http.Get(server.URL + urlPath.String())
 	t.Must(t.Nil(err))
 
 	t.Must(t.Equal(resp.StatusCode, http.StatusOK))
 
-	// b, err := ioutil.ReadAll(resp.Body)
-	// resp.Body.Close()
-	// t.Must(t.Nil(err))
+	decoder := json.NewDecoder(resp.Body)
+	defer resp.Body.Close()
 
-	// TODO: finish test
+	foos := map[string]Foo{}
+	err = decoder.Decode(&foos)
+	t.Must(t.Nil(err))
+
+	t.Equal(len(foos), len(allFoos))
+
+	for k, foo := range allFoos {
+		t.Equal(foos[k].B, foo.B)
+		t.Equal(foos[k].A, foo.A)
+		t.Equal(foos[k].R, foo.R)
+	}
 }
 
 func (t *mainSuite) TestHandleGetFoo() {
-	resp, err := http.Get(server.URL + "/foos/1")
+	key := "ABeeSee"
+	urlPath, err := router.Get("HandleGetFoo").URL("key", key)
+	t.Must(t.Nil(err))
+
+	resp, err := http.Get(server.URL + urlPath.String())
 	t.Must(t.Nil(err))
 
 	t.Must(t.Equal(resp.StatusCode, http.StatusOK))
 
-	// b, err := ioutil.ReadAll(resp.Body)
-	// resp.Body.Close()
-	// t.Must(t.Nil(err))
-	// TODO: finish test
+	decoder := json.NewDecoder(resp.Body)
+	defer resp.Body.Close()
+
+	var foo Foo
+	err = decoder.Decode(&foo)
+	t.Must(t.Nil(err))
+
+	t.Equal(foo.B, allFoos[key].B)
+	t.Equal(foo.A, allFoos[key].A)
+	t.Equal(foo.R, allFoos[key].R)
 }

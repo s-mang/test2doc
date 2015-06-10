@@ -16,13 +16,14 @@ type nopCloser struct {
 
 func (nopCloser) Close() error { return nil }
 
-func cloneBody(r io.Reader) (*bytes.Buffer, *bytes.Buffer, error) {
+func cloneBody(r io.ReadCloser) (*bytes.Buffer, *bytes.Buffer, error) {
 	var clone1, clone2 bytes.Buffer
 
 	rBytes, err := ioutil.ReadAll(r)
 	if err != nil {
 		return &clone1, &clone2, err
 	}
+	r.Close()
 
 	mw := io.MultiWriter(&clone1, &clone2)
 	_, err = mw.Write(rBytes)
@@ -68,10 +69,10 @@ func formatBody(body, contentType string) (fbody string, err error) {
 
 func indentJSONBody(bodyStr string) (outStr string, err error) {
 	var outJSON bytes.Buffer
-	err = json.Indent(&outJSON, []byte(bodyStr), "\t\t\t", "\t")
+	err = json.Indent(&outJSON, []byte(bodyStr), "            ", "    ")
 	if err != nil {
 		return
 	}
 
-	return string(outJSON.Bytes()), nil
+	return outJSON.String(), nil
 }

@@ -16,8 +16,8 @@ const (
 
 var (
 	docTmpl *template.Template
-	docFmt  = `FORMAT: {{.Metadata.Format}}
-HOST: {{.Metadata.Host}}
+	docFmt  = `FORMAT: {{with .Metadata}}{{.Format}}
+HOST: {{.Host}}{{end}}
 
 # {{.Title}}
 {{.Description}}
@@ -32,7 +32,7 @@ func init() {
 type Doc struct {
 	Title          string
 	Description    string
-	Metadata       *Metadata
+	Metadata       Metadata
 	ResourceGroups []*ResourceGroup
 	file           *os.File
 
@@ -57,12 +57,18 @@ func NewDoc(outDir string) (doc *Doc, err error) {
 	doc = tmpDoc
 	doc.file = fi
 
-	err = docTmpl.Execute(fi, doc)
-	if err != nil {
-		return
-	}
-
 	return
+}
+
+// TODO: add Resource to appropriate ResourceGroup,
+//  not just to ResourceGroups[0]
+func (d *Doc) AddResource(resource *Resource) {
+	group := d.ResourceGroups[0]
+	group.Resources = append(group.Resources, *resource)
+}
+
+func (d *Doc) Write() error {
+	return docTmpl.Execute(d.file, d)
 }
 
 func getPayload(req *http.Request) (body []byte, err error) {

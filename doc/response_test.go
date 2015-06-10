@@ -17,8 +17,7 @@ func (t *suite) TestNewResponse_ResponseBodyIsCorrectlyCopied() {
 	w := httptest.NewRecorder()
 	testResponseHandler(w, req)
 
-	apiResp, err := NewResponse("example", w)
-	t.Must(t.Nil(err))
+	apiResp := NewResponse(w)
 
 	t.Equal(string(apiResp.Body), testResponseBody)
 }
@@ -31,8 +30,7 @@ func (t *suite) TestNewResponse_OriginalResponseBodyDoesNotChange() {
 	w := httptest.NewRecorder()
 	testResponseHandler(w, req)
 
-	_, err = NewResponse("example", w)
-	t.Must(t.Nil(err))
+	_ = NewResponse(w)
 
 	t.Equal(w.Body.String(), testRequestBody)
 }

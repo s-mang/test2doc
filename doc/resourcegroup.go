@@ -18,7 +18,7 @@ func init() {
 type ResourceGroup struct {
 	Title       string
 	Description string
-	Resources   []*Resource
+	Resources   []Resource
 }
 
 func (rg *ResourceGroup) Render() string {

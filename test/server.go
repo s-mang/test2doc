@@ -1,47 +1,83 @@
 package test
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 
 	"github.com/adams-sarah/test2doc/doc"
 )
 
+// resources = map[uri]Resource
+var resources = map[string]*doc.Resource{}
+
+type Server struct {
+	*httptest.Server
+	doc *doc.Doc
+}
+
 // TODO: filter out 404 responses
-func NewServer(handler http.Handler, outDir string) (s *httptest.Server, err error) {
+func NewServer(handler http.Handler, outDir string) (s *Server, err error) {
 	outDoc, err := doc.NewDoc(outDir)
 	if err != nil {
 		return s, err
 	}
 
-	return httptest.NewServer(handleAndRecord(handler, outDoc)), nil
+	httptestServer := httptest.NewServer(handleAndRecord(handler, outDoc))
+
+	return &Server{
+		httptestServer,
+		outDoc,
+	}, nil
+}
+
+func (s *Server) Finish() {
+	s.Close()
+
+	for _, r := range resources {
+		s.doc.AddResource(r)
+	}
+
+	err := s.doc.Write()
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		// err := doc.RecordRequest(outDoc, r)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
+		u := doc.NewURL(req)
+		path := u.ParameterizedPath
 
-		// resp, err := doc.RecordResponse(r, handler)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
+		// setup
+		if resources[path] == nil {
+			resources[path] = doc.NewResource(path)
+		}
 
-		// err = resp.Header().Write(w)
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return
-		// }
+		// record response
+		resp := httptest.NewRecorder()
+		handler.ServeHTTP(resp, req)
 
-		// w.WriteHeader(resp.Code)
+		// append Action to Resource's list of Actions
+		action, err := doc.NewAction(req, resp)
+		if err != nil {
+			log.Println("Error:", err.Error())
+			return
+		}
 
-		// fmt.Fprint(w, resp.Body.String())
+		resources[path].AddAction(action)
 
-		// TODO: remove
-		handler.ServeHTTP(w, req)
+		// copy response over to w
+		w.WriteHeader(resp.Code)
+		copyHeader(w.Header(), resp.Header())
+		w.Write(resp.Body.Bytes())
+	}
+}
+
+func copyHeader(dst, src http.Header) {
+	for k, vv := range src {
+		for _, v := range vv {
+			dst.Add(k, v)
+		}
 	}
 }

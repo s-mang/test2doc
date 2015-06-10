@@ -1,7 +1,6 @@
 package doc
 
 import (
-	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -9,10 +8,9 @@ import (
 var (
 	requestTmpl *template.Template
 	requestFmt  = `{{if or .Header .Body}}
-+ Request {{with .Header}}({{.ContentType}}){{end}}{{end}}
-{{.Header.Render}}
-{{.Body.Render}}
-`
++ Request {{with .Header}}({{.ContentType}}){{end}}
+{{with .Header}}{{.Render}}{{end}}
+{{with .Body}}{{.Render}}{{end}}{{end}}`
 )
 
 func init() {
@@ -57,27 +55,4 @@ func (r *Request) BodyStr() string {
 	}
 
 	return fbody
-}
-
-func RecordRequest(doc *Doc, req *http.Request) error {
-	body, err := getPayload(req)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(body)
-
-	// err = doc.WriteRequestTitle("")
-	// if err != nil {
-	// 	return err
-	// }
-
-	// err = doc.WriteHeaders(req.Header)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// return doc.WriteBody(string(body))
-
-	return nil
 }

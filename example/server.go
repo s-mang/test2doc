@@ -5,7 +5,6 @@ package main
 // http://jsonplaceholder.typicode.com
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -19,30 +18,18 @@ func main() {
 
 func newRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", HandleGetInfo).Methods("GET")
+	r.HandleFunc("/foos", HandleGetFoos).Methods("GET").Name("HandleGetFoos")
+	r.HandleFunc("/foos/{key}", HandleGetFoo).Methods("GET").Name("HandleGetFoo")
 
-	r.HandleFunc("/foos", HandleGetFoos).Methods("GET")
-	r.HandleFunc("/foos/{key}", HandleGetFoo).Methods("GET")
-
-	r.HandleFunc("/widgets", HandleGetWidgets).Methods("GET")
-	r.HandleFunc("/widgets", HandlePostWidget).Methods("POST")
-	r.HandleFunc("/widgets/{id}", HandleGetWidget).Methods("GET")
+	r.HandleFunc("/widgets", HandleGetWidgets).Methods("GET").Name("HandleGetWidgets")
+	r.HandleFunc("/widgets", HandlePostWidget).Methods("POST").Name("HandlePostWidget")
+	r.HandleFunc("/widgets/{id}", HandleGetWidget).Methods("GET").Name("HandleGetWidget")
 
 	return r
 }
 
-// HandleGetInfo serves basic info about the Server resource to
-// the client
-func HandleGetInfo(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		HandleNotFound(w)
-		return
-	}
-
-	fmt.Fprintf(w, "TODO")
-}
-
-// HandleNotFound is the basic 404 handler
-func HandleNotFound(w http.ResponseWriter) {
-	http.Error(w, "Not found", http.StatusNotFound)
+// HandleError serves an error response to the client
+func handleError(w http.ResponseWriter, err error, statusCode int) {
+	log.Printf("Error %d: %v\n", statusCode, err)
+	http.Error(w, http.StatusText(statusCode), statusCode)
 }

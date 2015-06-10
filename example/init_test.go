@@ -1,14 +1,15 @@
 package main
 
 import (
-	"net/http/httptest"
 	"testing"
 
 	"github.com/adams-sarah/prettytest"
 	"github.com/adams-sarah/test2doc/test"
+	"github.com/gorilla/mux"
 )
 
-var server *httptest.Server
+var router *mux.Router
+var server *test.Server
 
 type mainSuite struct {
 	prettytest.Suite
@@ -17,11 +18,13 @@ type mainSuite struct {
 func TestRunner(t *testing.T) {
 	var err error
 
-	server, err = test.NewServer(newRouter(), ".")
+	router = newRouter()
+
+	server, err = test.NewServer(router, ".")
 	if err != nil {
 		panic(err.Error())
 	}
-	defer server.Close()
+	defer server.Finish()
 
 	prettytest.RunWithFormatter(
 		t,

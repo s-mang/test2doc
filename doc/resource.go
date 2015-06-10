@@ -6,9 +6,10 @@ var (
 	resourceTmpl *template.Template
 	resourceFmt  = `## {{.Title}} [{{with .URL}}{{.ParameterizedPath}}{{end}}]
 {{.Description}}
-{{with .URL}}{{with .Parameters}}+ Parameters
-{{range .}}
-{{.Render}}{{end}}{{end}}{{end}}{{range .Actions}}
+{{with .URL}}{{if .Parameters}}+ Parameters
+{{range .Parameters}}
+{{.Render}}{{end}}{{end}}{{end}}
+{{range .Actions}}
 {{.Render}}{{end}}`
 )
 
@@ -16,15 +17,31 @@ func init() {
 	resourceTmpl = template.Must(template.New("resource").Parse(resourceFmt))
 }
 
+type httpMethod string
+
 type Resource struct {
 	Title       string
 	Description string
 	//Model       *Model
 	URL     *URL
-	Actions []*Action
+	Actions map[httpMethod]*Action
 
 	// TODO:
 	// Attributes
+}
+
+func NewResource(urlPath string) *Resource {
+	resource := &Resource{}
+	resource.Actions = map[httpMethod]*Action{}
+	return resource
+}
+
+func (r *Resource) AddAction(action *Action) {
+	if r.Actions == nil {
+		r.Actions = map[httpMethod]*Action{}
+	}
+
+	r.Actions[action.Method] = action
 }
 
 func (r *Resource) Render() string {

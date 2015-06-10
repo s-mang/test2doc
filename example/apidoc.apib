@@ -8,15 +8,194 @@ Fake Online REST API for Testing and Prototyping
 # Group A Lovely Resource Group
 All CRUD endpoints for A Lovely Resource Group
 
-## Resource #1 [/foozle/id/1]
-This resource is just like all the others.
+##  []
 
 
-# Group An Awesome Resource Group
-All non-CRUD endpoints
 
-## Resource #2 [/bardy/id/2]
-This resource is just like all the others.
+### Some Action [GET]
+Some description.
 
-## Resource #3 [/wallet/id/3]
-This resource is just like all the others.
+
++ Request ()
+
+	+ Headers
+		
+		Accept-Encoding: gzip
+		User-Agent: Go 1.1 package http
+
+
+
+
++ Response 200 
+
+	+ Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+
+##  []
+
+
+
+### Some Action [GET]
+Some description.
+
+
++ Request ()
+
+	+ Headers
+		
+		Accept-Encoding: gzip
+		User-Agent: Go 1.1 package http
+
+
+
+
++ Response 200 
+
+	+ Body
+
+            {
+                "2": {
+                    "B": "",
+                    "A": "",
+                    "R": "2"
+                },
+                "ABeeSee": {
+                    "B": "A",
+                    "A": "Bee",
+                    "R": "See"
+                },
+                "OneTwoThree": {
+                    "B": "One",
+                    "A": "Two",
+                    "R": "Three"
+                },
+                "SomethingFunForYou": {
+                    "B": "Something",
+                    "A": "Fun",
+                    "R": "ForYou"
+                }
+            }        
+
+##  []
+
+
+
+### Some Action [GET]
+Some description.
+
+
++ Request ()
+
+	+ Headers
+		
+		Accept-Encoding: gzip
+		User-Agent: Go 1.1 package http
+
+
+
+
++ Response 200 
+
+	+ Body
+
+            {
+                "Id": 2,
+                "Name": "Pencil",
+                "Role": "Utensil"
+            }        
+
+##  []
+
+
+
+### Some Action [GET]
+Some description.
+
+
++ Request ()
+
+	+ Headers
+		
+		Accept-Encoding: gzip
+		User-Agent: Go 1.1 package http
+
+
+
+
++ Response 200 
+
+	+ Body
+
+            [
+                {
+                    "Id": 0,
+                    "Name": "Nothing",
+                    "Role": "N/A"
+                },
+                {
+                    "Id": 1,
+                    "Name": "Jibjab",
+                    "Role": "Instrument"
+                },
+                {
+                    "Id": 2,
+                    "Name": "Pencil",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 3,
+                    "Name": "Fork",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 4,
+                    "Name": "Password",
+                    "Role": "Credential"
+                },
+                {
+                    "Id": 5,
+                    "Name": "SpanFrankisco",
+                    "Role": "Home"
+                },
+                {
+                    "Id": 6,
+                    "Name": "Doc",
+                    "Role": "Villain"
+                },
+                {
+                    "Id": 7,
+                    "Name": "Coff3e",
+                    "Role": "Hack"
+                }
+            ]        
+
+### Some Action [POST]
+Some description.
+
+
++ Request (application/json)
+
+	+ Headers
+		
+		Accept-Encoding: gzip
+		Content-Length: 51
+		Content-Type: application/json
+		User-Agent: Go 1.1 package http
+
+
+
+
++ Response 201 
+
+	+ Body
+
+            {
+                "Id": 8,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
