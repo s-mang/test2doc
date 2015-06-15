@@ -7,8 +7,7 @@ var (
 	resourceGroupFmt  = `
 # Group {{.Title}}
 {{.Description}}
-{{range .Resources}}
-{{.Render}}{{end}}`
+{{range .Resources}}{{.Render}}{{end}}`
 )
 
 func init() {

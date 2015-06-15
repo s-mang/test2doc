@@ -9,9 +9,9 @@ import (
 var (
 	actionTmpl *template.Template
 	actionFmt  = `### {{.Title}} [{{.Method}}]
-{{.Description}}{{with .Request}}
-{{.Render}}{{end}}{{with .Response}}
-{{.Render}}{{end}}`
+{{.Description}}
+{{with .Request}}{{.Render}}{{end}}
+{{with .Response}}{{.Render}}{{end}}`
 )
 
 func init() {

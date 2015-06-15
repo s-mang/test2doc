@@ -5,31 +5,17 @@ HOST: http://jsonplaceholder.typicode.com
 Fake Online REST API for Testing and Prototyping
 
 
-# Group A Lovely Resource Group
-All CRUD endpoints for A Lovely Resource Group
-
-##  [/foos/ABeeSee]
-
-### Some Action [GET]
-Some description.
-
-+ Response 200 
-
-	+ Body
-
-            {
-                "B": "A",
-                "A": "Bee",
-                "R": "See"
-            }        
-
+# Group 
 
 ##  [/foos]
 
+
 ### Some Action [GET]
 Some description.
 
+
 + Response 200 
+
 
 	+ Body
 
@@ -56,13 +42,15 @@ Some description.
                 }
             }        
 
-
 ##  [/widgets/2]
+
 
 ### Some Action [GET]
 Some description.
 
+
 + Response 200 
+
 
 	+ Body
 
@@ -72,13 +60,15 @@ Some description.
                 "Role": "Utensil"
             }        
 
-
 ##  [/widgets]
+
 
 ### Some Action [GET]
 Some description.
 
+
 + Response 200 
+
 
 	+ Body
 
@@ -124,19 +114,16 @@ Some description.
                     "Role": "Hack"
                 }
             ]        
-
 ### Some Action [POST]
 Some description.
 
 + Request (application/json)
-	+ Headers
-		
-		Accept-Encoding: gzip
-		Content-Length: 51
-		Content-Type: application/json
-		User-Agent: Go 1.1 package http
+
+
+
 
 + Response 201 
+
 
 	+ Body
 
@@ -144,5 +131,23 @@ Some description.
                 "Id": 8,
                 "Name": "anotherwidget",
                 "Role": "controller"
+            }        
+
+##  [/foos/ABeeSee]
+
+
+### Some Action [GET]
+Some description.
+
+
++ Response 200 
+
+
+	+ Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
             }        
 

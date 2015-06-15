@@ -4,11 +4,11 @@ import "text/template"
 
 var (
 	resourceTmpl *template.Template
-	resourceFmt  = `## {{.Title}} [{{with .URL}}{{.ParameterizedPath}}{{end}}]
-{{.Description}}{{with .URL}}{{if .Parameters}}
-+ Parameters{{range .Parameters}}
-{{.Render}}{{end}}{{end}}{{end}}{{range .Actions}}
-{{.Render}}{{end}}
+	resourceFmt  = `## {{.Title}} [{{.URL.ParameterizedPath}}]
+{{.Description}}
+{{if .URL.Parameters}}+ Parameters
+{{range .URL.Parameters}}{{.Render}}{{end}}{{end}}
+{{range .Actions}}{{.Render}}{{end}}
 `
 )
 

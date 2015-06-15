@@ -7,9 +7,9 @@ import (
 
 var (
 	headerTmpl *template.Template
-	headerFmt  = `	+ Headers
-		{{range $name, $vals := .DisplayHeader}}
-		{{$name}}: {{$vals | commaJoin}}{{end}}`
+	headerFmt  = `{{with .DisplayHeader}}	+ Headers
+		{{range $name, $vals := .}}
+		{{$name}}: {{$vals | commaJoin}}{{end}}{{end}}`
 )
 
 func init() {
@@ -26,7 +26,7 @@ type Header struct {
 }
 
 func NewHeader(h http.Header) *Header {
-	hCopy := http.Header{}
+	hCopy := make(http.Header, len(h))
 	CopyHeader(hCopy, h)
 
 	// remove header fields we don't want in the doc
@@ -42,13 +42,9 @@ func NewHeader(h http.Header) *Header {
 	delete(hCopy, "Content-Type")
 
 	return &Header{
-		DisplayHeader: h,
+		DisplayHeader: hCopy,
 		ContentType:   contentType,
 	}
-}
-
-func (h Header) IsValid() bool {
-	return ((len(h.DisplayHeader) > 0) || (h.ContentType != ""))
 }
 
 func (h Header) Render() string {

@@ -15,7 +15,7 @@ func (t *suite) TestContentType_OneContentType() {
 
 	h := http.Header{}
 	h.Add("Content-Type", ct)
-	t.Equal(Header(h).ContentType(), ct)
+	t.Equal(NewHeader(h).ContentType, ct)
 }
 
 func (t *suite) TestContentType_MultipleContentTypes_Mistakenly() {
@@ -24,10 +24,10 @@ func (t *suite) TestContentType_MultipleContentTypes_Mistakenly() {
 	h := http.Header{}
 	h.Add("Content-Type", ct)
 	h.Add("Content-Type", "application/json")
-	t.Equal(Header(h).ContentType(), ct)
+	t.Equal(NewHeader(h).ContentType, ct)
 }
 
-func (t *suite) TestContentType_NoContentType() {
+func (t *suite) TestNewHeader_EmptyHeader() {
 	h := http.Header{}
-	t.Equal(Header(h).ContentType(), "")
+	t.Nil(NewHeader(h))
 }

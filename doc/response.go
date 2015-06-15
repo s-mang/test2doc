@@ -7,9 +7,10 @@ import (
 
 var (
 	responseTmpl *template.Template
-	responseFmt  = `+ Response {{.StatusCode}} {{with .Header}}({{.ContentType}})
-{{.Render}}{{end}}{{with .Body}}
-{{.Render}}{{end}}`
+	responseFmt  = `
++ Response {{.StatusCode}} {{if .HasContentType}}({{.ContentType}}){{end}}
+{{with .Header}}{{.Render}}{{end}}
+{{with .Body}}{{.Render}}{{end}}`
 )
 
 func init() {
@@ -37,4 +38,8 @@ func NewResponse(resp *httptest.ResponseRecorder) *Response {
 
 func (r *Response) Render() string {
 	return render(responseTmpl, r)
+}
+
+func (r *Response) HasContentType() bool {
+	return r.Header != nil && len(r.Header.ContentType) > 0
 }
