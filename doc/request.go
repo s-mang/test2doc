@@ -1,6 +1,7 @@
 package doc
 
 import (
+	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -8,10 +9,10 @@ import (
 var (
 	requestTmpl *template.Template
 	requestFmt  = `{{if or .HasBody .HasHeader}}
-+ Request {{if .HasContentType}}({{.Header.ContentType}}){{end}}
-
-{{with .Header}}{{.Render}}{{end}}
-{{with .Body}}{{.Render}}{{end}}{{end}}`
++ Request {{if .HasContentType}}({{.Header.ContentType}}){{end}}{{with .Header}}
+{{.Render}}{{end}}{{with .Body}}
+{{.Render}}{{end}}{{end}}
+`
 )
 
 func init() {
@@ -35,9 +36,12 @@ func NewRequest(req *http.Request) (*Request, error) {
 
 	req.Body = nopCloser{body1}
 
+	b2bytes := body2.Bytes()
+	fmt.Println("BODY:", string(b2bytes))
+
 	return &Request{
 		Header: NewHeader(req.Header),
-		Body:   body2.Bytes(),
+		Body:   b2bytes,
 	}, nil
 }
 
@@ -46,11 +50,11 @@ func (r *Request) Render() string {
 }
 
 func (r *Request) HasBody() bool {
-	return r.Body != nil
+	return len(r.Body) > 0
 }
 
 func (r *Request) HasHeader() bool {
-	return r.Header != nil && r.Header.DisplayHeader != nil
+	return r.Header != nil && len(r.Header.DisplayHeader) > 0
 }
 
 func (r *Request) HasContentType() bool {

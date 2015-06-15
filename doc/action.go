@@ -1,10 +1,6 @@
 package doc
 
-import (
-	"net/http"
-	"net/http/httptest"
-	"text/template"
-)
+import "text/template"
 
 var (
 	actionTmpl *template.Template
@@ -21,7 +17,7 @@ func init() {
 type Action struct {
 	Title       string
 	Description string
-	Method      httpMethod
+	Method      HTTPMethod
 	Request     Request // status OK
 	Response    Response
 
@@ -32,20 +28,13 @@ func (a *Action) Render() string {
 	return render(actionTmpl, a)
 }
 
-func NewAction(req *http.Request, resp *httptest.ResponseRecorder) (*Action, error) {
-	docReq, err := NewRequest(req)
-	if err != nil {
-		return nil, err
-	}
-
-	docResp := NewResponse(resp)
-
+func NewAction(method HTTPMethod, req *Request, resp *Response) (*Action, error) {
 	return &Action{
 		Title:       "Some Action",
 		Description: "Some description.",
-		Method:      httpMethod(req.Method),
-		Request:     *docReq,
-		Response:    *docResp,
+		Method:      method,
+		Request:     *req,
+		Response:    *resp,
 	}, nil
 
 }

@@ -54,12 +54,23 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 			resources[path] = doc.NewResource(u)
 		}
 
+		// copy request body into Request object
+		docReq, err := doc.NewRequest(req)
+		if err != nil {
+			log.Println("Error:", err.Error())
+			return
+		}
+
 		// record response
 		resp := httptest.NewRecorder()
 		handler.ServeHTTP(resp, req)
 
-		// append Action to Resource's list of Actions
-		action, err := doc.NewAction(req, resp)
+		// store response body in Response object
+		docResp := doc.NewResponse(resp)
+
+		// add Action to Resource's list of Actions
+		method := doc.HTTPMethod(req.Method)
+		action, err := doc.NewAction(method, docReq, docResp)
 		if err != nil {
 			log.Println("Error:", err.Error())
 			return

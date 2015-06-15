@@ -7,8 +7,7 @@ Fake Online REST API for Testing and Prototyping
 
 # Group 
 
-##  [/foos]
-
+##  [/foos/ABeeSee]
 
 ### Some Action [GET]
 Some description.
@@ -16,6 +15,22 @@ Some description.
 
 + Response 200 
 
+	+ Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+
+
+##  [/foos]
+
+### Some Action [GET]
+Some description.
+
+
++ Response 200 
 
 	+ Body
 
@@ -42,15 +57,14 @@ Some description.
                 }
             }        
 
-##  [/widgets/2]
 
+##  [/widgets/2]
 
 ### Some Action [GET]
 Some description.
 
 
 + Response 200 
-
 
 	+ Body
 
@@ -60,15 +74,14 @@ Some description.
                 "Role": "Utensil"
             }        
 
-##  [/widgets]
 
+##  [/widgets]
 
 ### Some Action [GET]
 Some description.
 
 
 + Response 200 
-
 
 	+ Body
 
@@ -114,16 +127,23 @@ Some description.
                     "Role": "Hack"
                 }
             ]        
+
+
 ### Some Action [POST]
 Some description.
 
 + Request (application/json)
 
+	+ Body
 
+            {
+                "Id": 0,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
 
 
 + Response 201 
-
 
 	+ Body
 
@@ -133,21 +153,4 @@ Some description.
                 "Role": "controller"
             }        
 
-##  [/foos/ABeeSee]
-
-
-### Some Action [GET]
-Some description.
-
-
-+ Response 200 
-
-
-	+ Body
-
-            {
-                "B": "A",
-                "A": "Bee",
-                "R": "See"
-            }        
 

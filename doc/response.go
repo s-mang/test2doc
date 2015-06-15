@@ -7,10 +7,11 @@ import (
 
 var (
 	responseTmpl *template.Template
-	responseFmt  = `
-+ Response {{.StatusCode}} {{if .HasContentType}}({{.ContentType}}){{end}}
-{{with .Header}}{{.Render}}{{end}}
-{{with .Body}}{{.Render}}{{end}}`
+	responseFmt  = `+ Response {{.StatusCode}} {{if .HasContentType}}({{.ContentType}}){{end}}
+{{with .Header}}
+{{.Render}}{{end}}{{with .Body}}
+{{.Render}}{{end}}
+`
 )
 
 func init() {
