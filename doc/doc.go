@@ -2,11 +2,15 @@ package doc
 
 import (
 	"bytes"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
+
+	"github.com/adams-sarah/test2doc/doc/parse"
 )
 
 const (
@@ -45,17 +49,35 @@ type Metadata struct {
 	Host   string
 }
 
-func NewDoc(outDir string) (doc *Doc, err error) {
-	var fi *os.File
+func NewDoc(pkgDir string) (doc *Doc, err error) {
+	fiPath := filepath.Join(pkgDir, outFile)
 
-	outPath := filepath.Join(outDir, outFile)
-	fi, err = os.Create(outPath)
+	fi, err := os.Create(fiPath)
 	if err != nil {
-		return
+		return doc, err
 	}
 
-	doc = tmpDoc
-	doc.file = fi
+	pkgDoc, err := parse.GetPackageDoc(pkgDir)
+	if err != nil {
+		return doc, err
+
+	} else if pkgDoc == nil {
+		return doc, errors.New("Found 0 packages, expected 1.")
+	}
+
+	title, description, host := getDocInfo(pkgDoc.Doc)
+
+	doc = &Doc{
+		Title:       title,
+		Description: description,
+		Metadata: Metadata{
+			Format: FORMAT,
+			Host:   host,
+		},
+		ResourceGroups: tmpResourceGroups,
+
+		file: fi,
+	}
 
 	return
 }
@@ -69,6 +91,23 @@ func (d *Doc) AddResource(resource *Resource) {
 
 func (d *Doc) Write() error {
 	return docTmpl.Execute(d.file, d)
+}
+
+func getDocInfo(pkgDoc string) (title, description, host string) {
+	pkgDocParts := strings.Split(pkgDoc, "\n")
+	if len(pkgDocParts) > 0 {
+		title = pkgDocParts[0]
+	}
+
+	if len(pkgDocParts) > 1 {
+		description = pkgDocParts[1]
+	}
+
+	if len(pkgDocParts) > 2 {
+		host = pkgDocParts[2]
+	}
+
+	return
 }
 
 func getPayload(req *http.Request) (body []byte, err error) {

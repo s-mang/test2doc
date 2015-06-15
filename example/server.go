@@ -1,8 +1,7 @@
-package main
-
 // JSON Placeholder API
 // Fake Online REST API for Testing and Prototyping
 // http://jsonplaceholder.typicode.com
+package main
 
 import (
 	"log"
@@ -28,7 +27,7 @@ func newRouter() *mux.Router {
 	return r
 }
 
-// HandleError serves an error response to the client
+// handleError serves an error response to the client
 func handleError(w http.ResponseWriter, err error, statusCode int) {
 	log.Printf("Error %d: %v\n", statusCode, err)
 	http.Error(w, http.StatusText(statusCode), statusCode)

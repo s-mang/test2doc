@@ -17,8 +17,8 @@ type Server struct {
 }
 
 // TODO: filter out 404 responses
-func NewServer(handler http.Handler, outDir string) (s *Server, err error) {
-	outDoc, err := doc.NewDoc(outDir)
+func NewServer(handler http.Handler, pkgDir string) (s *Server, err error) {
+	outDoc, err := doc.NewDoc(pkgDir)
 	if err != nil {
 		return s, err
 	}
