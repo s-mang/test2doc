@@ -5,12 +5,11 @@ import "text/template"
 var (
 	resourceTmpl *template.Template
 	resourceFmt  = `## {{.Title}} [{{with .URL}}{{.ParameterizedPath}}{{end}}]
-{{.Description}}
-{{with .URL}}{{if .Parameters}}+ Parameters
-{{range .Parameters}}
-{{.Render}}{{end}}{{end}}{{end}}
-{{range .Actions}}
-{{.Render}}{{end}}`
+{{.Description}}{{with .URL}}{{if .Parameters}}
++ Parameters{{range .Parameters}}
+{{.Render}}{{end}}{{end}}{{end}}{{range .Actions}}
+{{.Render}}{{end}}
+`
 )
 
 func init() {
@@ -30,9 +29,10 @@ type Resource struct {
 	// Attributes
 }
 
-func NewResource(urlPath string) *Resource {
+func NewResource(u *URL) *Resource {
 	resource := &Resource{}
 	resource.Actions = map[httpMethod]*Action{}
+	resource.URL = u
 	return resource
 }
 

@@ -2,7 +2,7 @@ package doc
 
 var (
 	tmpDoc = &Doc{
-		Title:       "JSON Placeholder API",
+		Title:       "JSON XYZ API",
 		Description: "Fake Online REST API for Testing and Prototyping",
 		Metadata: Metadata{
 			Format: FORMAT,

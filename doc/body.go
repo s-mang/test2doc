@@ -4,7 +4,8 @@ import "text/template"
 
 var (
 	bodyTmpl *template.Template
-	bodyFmt  = `	+ Body
+	bodyFmt  = `
+	+ Body
 
             {{.FormattedJSON}}        
 `

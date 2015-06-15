@@ -1,58 +1,17 @@
 FORMAT: 1A
 HOST: http://jsonplaceholder.typicode.com
 
-# JSON Placeholder API
+# JSON XYZ API
 Fake Online REST API for Testing and Prototyping
 
 
 # Group A Lovely Resource Group
 All CRUD endpoints for A Lovely Resource Group
 
-##  []
-
-
+##  [/foos]
 
 ### Some Action [GET]
 Some description.
-
-
-+ Request ()
-
-	+ Headers
-		
-		Accept-Encoding: gzip
-		User-Agent: Go 1.1 package http
-
-
-
-
-+ Response 200 
-
-	+ Body
-
-            {
-                "B": "A",
-                "A": "Bee",
-                "R": "See"
-            }        
-
-##  []
-
-
-
-### Some Action [GET]
-Some description.
-
-
-+ Request ()
-
-	+ Headers
-		
-		Accept-Encoding: gzip
-		User-Agent: Go 1.1 package http
-
-
-
 
 + Response 200 
 
@@ -81,23 +40,11 @@ Some description.
                 }
             }        
 
-##  []
 
-
+##  [/widgets/2]
 
 ### Some Action [GET]
 Some description.
-
-
-+ Request ()
-
-	+ Headers
-		
-		Accept-Encoding: gzip
-		User-Agent: Go 1.1 package http
-
-
-
 
 + Response 200 
 
@@ -109,23 +56,11 @@ Some description.
                 "Role": "Utensil"
             }        
 
-##  []
 
-
+##  [/widgets]
 
 ### Some Action [GET]
 Some description.
-
-
-+ Request ()
-
-	+ Headers
-		
-		Accept-Encoding: gzip
-		User-Agent: Go 1.1 package http
-
-
-
 
 + Response 200 
 
@@ -177,18 +112,13 @@ Some description.
 ### Some Action [POST]
 Some description.
 
-
 + Request (application/json)
-
 	+ Headers
 		
 		Accept-Encoding: gzip
 		Content-Length: 51
 		Content-Type: application/json
 		User-Agent: Go 1.1 package http
-
-
-
 
 + Response 201 
 
@@ -199,3 +129,20 @@ Some description.
                 "Name": "anotherwidget",
                 "Role": "controller"
             }        
+
+
+##  [/foos/ABeeSee]
+
+### Some Action [GET]
+Some description.
+
++ Response 200 
+
+	+ Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+

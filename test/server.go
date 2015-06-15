@@ -51,7 +51,7 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 
 		// setup
 		if resources[path] == nil {
-			resources[path] = doc.NewResource(path)
+			resources[path] = doc.NewResource(u)
 		}
 
 		// record response
@@ -69,15 +69,7 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 
 		// copy response over to w
 		w.WriteHeader(resp.Code)
-		copyHeader(w.Header(), resp.Header())
+		doc.CopyHeader(w.Header(), resp.Header())
 		w.Write(resp.Body.Bytes())
-	}
-}
-
-func copyHeader(dst, src http.Header) {
-	for k, vv := range src {
-		for _, v := range vv {
-			dst.Add(k, v)
-		}
 	}
 }

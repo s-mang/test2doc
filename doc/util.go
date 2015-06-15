@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"strings"
 	"text/template"
 )
@@ -29,6 +30,14 @@ func cloneBody(r io.ReadCloser) (*bytes.Buffer, *bytes.Buffer, error) {
 	_, err = mw.Write(rBytes)
 
 	return &clone1, &clone2, err
+}
+
+func CopyHeader(dst, src http.Header) {
+	for k, vv := range src {
+		for _, v := range vv {
+			dst.Add(k, v)
+		}
+	}
 }
 
 func render(tmpl *template.Template, i interface{}) string {

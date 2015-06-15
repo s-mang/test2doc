@@ -9,10 +9,8 @@ import (
 var (
 	actionTmpl *template.Template
 	actionFmt  = `### {{.Title}} [{{.Method}}]
-{{.Description}}
-{{with .Request}}
-{{.Render}}{{end}}
-{{with .Response}}
+{{.Description}}{{with .Request}}
+{{.Render}}{{end}}{{with .Response}}
 {{.Render}}{{end}}`
 )
 

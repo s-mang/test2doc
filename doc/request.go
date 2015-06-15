@@ -7,9 +7,9 @@ import (
 
 var (
 	requestTmpl *template.Template
-	requestFmt  = `{{if or .Header .Body}}
-+ Request {{with .Header}}({{.ContentType}}){{end}}
-{{with .Header}}{{.Render}}{{end}}
+	requestFmt  = `{{if or .Body .Header}}
++ Request {{with .Header}}({{.ContentType}})
+{{.Render}}{{end}}
 {{with .Body}}{{.Render}}{{end}}{{end}}`
 )
 
@@ -18,7 +18,7 @@ func init() {
 }
 
 type Request struct {
-	Header Header
+	Header *Header
 	Body   Body
 
 	// TODO:
@@ -39,20 +39,7 @@ func NewRequest(req *http.Request) (*Request, error) {
 	req.Body = nopCloser{body1}
 
 	return &Request{
-		Header: Header(req.Header),
+		Header: NewHeader(req.Header),
 		Body:   body2.Bytes(),
 	}, nil
-}
-
-func (r *Request) ContentType() string {
-	return r.Header.ContentType()
-}
-
-func (r *Request) BodyStr() string {
-	fbody, err := formatBody(string(r.Body), r.ContentType())
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return fbody
 }
