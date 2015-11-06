@@ -1,7 +1,5 @@
 # test2doc
 
-[![wercker status](https://app.wercker.com/status/fd0bda35af1bdd28e08eee90783127c2/m "wercker status")](https://app.wercker.com/project/bykey/fd0bda35af1bdd28e08eee90783127c2)
-
 Automatically generate API documentation from your Go unit tests: a simple addition to Go's testing pkg
 
 ### Diving right in..
@@ -53,12 +51,14 @@ retrieves a single Widget
 ```
 
 Which you can then parse and host w/ *Apiary.io*, eg [here](http://docs.testingit.apiary.io/#). 
-
 Or use a custom parser and host yourself.
 
-### How much crap do I have to add to my code?
+![screenshot](https://www.dropbox.com/s/iyzr3lds7sguv2h/Screen%20Shot%202015-11-06%20at%209.38.46%20AM.png?dl=0)
 
-Answer: **VERY LITTLE**
+
+### How can I get this working?
+
+Very few additions, and only to your testing code.
 
 ```go
 
