@@ -1,7 +1,6 @@
 package doc
 
 import (
-	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -11,8 +10,7 @@ var (
 	requestFmt  = `{{if or .HasBody .HasHeader}}
 + Request {{if .HasContentType}}({{.Header.ContentType}}){{end}}{{with .Header}}
 {{.Render}}{{end}}{{with .Body}}
-{{.Render}}{{end}}
-{{end}}`
+{{.Render}}{{end}}{{end}}`
 )
 
 func init() {
@@ -22,6 +20,7 @@ func init() {
 type Request struct {
 	Header *Header
 	Body   Body
+	Method string
 
 	// TODO:
 	// Attributes
@@ -37,11 +36,11 @@ func NewRequest(req *http.Request) (*Request, error) {
 	req.Body = nopCloser{body1}
 
 	b2bytes := body2.Bytes()
-	fmt.Println("BODY:", string(b2bytes))
 
 	return &Request{
 		Header: NewHeader(req.Header),
 		Body:   b2bytes,
+		Method: req.Method,
 	}, nil
 }
 

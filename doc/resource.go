@@ -30,6 +30,7 @@ type Resource struct {
 	// Attributes
 }
 
+// NewResource returns a new Resource object
 func NewResource(u *URL) *Resource {
 	resource := &Resource{}
 	resource.Actions = map[HTTPMethod]*Action{}

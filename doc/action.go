@@ -1,12 +1,15 @@
 package doc
 
-import "text/template"
+import (
+	"text/template"
+
+	"github.com/adams-sarah/test2doc/doc/parse"
+)
 
 var (
 	actionTmpl *template.Template
 	actionFmt  = `### {{.Title}} [{{.Method}}]
-{{.Description}}
-{{with .Request}}{{.Render}}{{end}}
+{{.Description}}{{with .Request}}{{.Render}}{{end}}
 {{with .Response}}{{.Render}}{{end}}`
 )
 
@@ -28,11 +31,14 @@ func (a *Action) Render() string {
 	return render(actionTmpl, a)
 }
 
-func NewAction(method HTTPMethod, req *Request, resp *Response) (*Action, error) {
+func NewAction(req *Request, resp *Response, handlerName string) (*Action, error) {
+	title := parse.GetTitle(handlerName)
+	desc := parse.GetDescription(handlerName)
+
 	return &Action{
-		Title:       "Some Action",
-		Description: "Some description.",
-		Method:      method,
+		Title:       title,
+		Description: desc,
+		Method:      HTTPMethod(req.Method),
 		Request:     *req,
 		Response:    *resp,
 	}, nil

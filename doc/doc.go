@@ -57,7 +57,7 @@ func NewDoc(pkgDir string) (doc *Doc, err error) {
 		return doc, err
 	}
 
-	pkgDoc, err := parse.GetPackageDoc(pkgDir)
+	pkgDoc, err := parse.NewPackageDoc(pkgDir)
 	if err != nil {
 		return doc, err
 
