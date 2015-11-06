@@ -1,4 +1,4 @@
-package main
+package widgets
 
 import (
 	"encoding/json"
@@ -18,10 +18,10 @@ type Widget struct {
 	Role string
 }
 
-var allWidgets []Widget
+var AllWidgets []Widget
 
 func init() {
-	allWidgets = []Widget{
+	AllWidgets = []Widget{
 		Widget{0, "Nothing", "N/A"},
 		Widget{1, "Jibjab", "Instrument"},
 		Widget{2, "Pencil", "Utensil"},
@@ -33,64 +33,64 @@ func init() {
 	}
 }
 
-// HandleGetWidgets retrieves the collection of Wisdget
-func HandleGetWidgets(w http.ResponseWriter, req *http.Request) {
-	widgetsJSON, err := json.Marshal(allWidgets)
+// GetWidgets retrieves the collection of Wisdget
+func GetWidgets(w http.ResponseWriter, req *http.Request) {
+	widgetsJSON, err := json.Marshal(AllWidgets)
 	if err != nil {
-		handleError(w, err, http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	fmt.Fprintf(w, string(widgetsJSON))
 }
 
-// HandleGetWidget retrieves a single Widget
-func HandleGetWidget(w http.ResponseWriter, req *http.Request) {
+// GetWidget retrieves a single Widget
+func GetWidget(w http.ResponseWriter, req *http.Request) {
 	id, err := strconv.ParseInt(mux.Vars(req)["id"], 10, 64)
 	if err != nil {
-		handleError(w, err, http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	if id >= int64(len(allWidgets)) {
-		handleError(w, err, http.StatusNotFound)
+	if id >= int64(len(AllWidgets)) {
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	widgetJSON, err := json.Marshal(allWidgets[id])
+	widgetJSON, err := json.Marshal(AllWidgets[id])
 	if err != nil {
-		handleError(w, err, http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	fmt.Fprintf(w, string(widgetJSON))
 }
 
-// HandlePostWidget adds a Widget to the collection
-func HandlePostWidget(w http.ResponseWriter, req *http.Request) {
+// PostWidget adds a Widget to the collection
+func PostWidget(w http.ResponseWriter, req *http.Request) {
 	var widget Widget
 	decoder := json.NewDecoder(req.Body)
 
 	err := decoder.Decode(&widget)
 	if err != nil {
 		log.Println(1)
-		handleError(w, err, http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if len(widget.Name) == 0 {
 		err = errors.New("Widget name can't be blank.")
-		handleError(w, err, http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// not thread safe...
-	widget.Id = int64(len(allWidgets))
-	allWidgets = append(allWidgets, widget)
+	widget.Id = int64(len(AllWidgets))
+	AllWidgets = append(AllWidgets, widget)
 
 	widgetJSON, err := json.Marshal(widget)
 	if err != nil {
-		handleError(w, err, http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

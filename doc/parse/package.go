@@ -45,7 +45,6 @@ func getPackageDoc(dir string) (*doc.Package, error) {
 	}
 
 	// return the first pkg
-	// TODO: support multiple packages in dir
 	for pkgName, pkgAST := range pkgs {
 		importPath := dir + "/" + pkgName
 		return doc.New(pkgAST, importPath, doc.AllMethods), nil

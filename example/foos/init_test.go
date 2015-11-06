@@ -1,9 +1,10 @@
-package main
+package foos_test
 
 import (
 	"testing"
 
 	"github.com/adams-sarah/prettytest"
+	"github.com/adams-sarah/test2doc/example"
 	"github.com/adams-sarah/test2doc/test"
 	"github.com/gorilla/mux"
 )
@@ -18,7 +19,7 @@ type mainSuite struct {
 func TestRunner(t *testing.T) {
 	var err error
 
-	router = newRouter()
+	router = example.NewRouter()
 	router.KeepContext = true
 
 	test.RegisterURLVarExtractor(mux.Vars)

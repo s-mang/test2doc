@@ -1,14 +1,16 @@
-package main
+package widgets_test
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/adams-sarah/test2doc/example/widgets"
 )
 
-func (t *mainSuite) TestHandleGetWidgets() {
-	urlPath, err := router.Get("HandleGetWidgets").URL()
+func (t *mainSuite) TestGetWidgets() {
+	urlPath, err := router.Get("GetWidgets").URL()
 	t.Must(t.Nil(err))
 
 	resp, err := http.Get(server.URL + urlPath.String())
@@ -19,23 +21,23 @@ func (t *mainSuite) TestHandleGetWidgets() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var widgets []Widget
-	err = decoder.Decode(&widgets)
+	var ws []widgets.Widget
+	err = decoder.Decode(&ws)
 	t.Must(t.Nil(err))
 
-	t.Equal(len(widgets), len(allWidgets))
-	t.Must(t.True(len(widgets) > 2))
+	t.Equal(len(ws), len(widgets.AllWidgets))
+	t.Must(t.True(len(ws) > 2))
 
-	t.Equal(widgets[0].Id, allWidgets[0].Id)
-	t.Equal(widgets[2].Name, allWidgets[2].Name)
-	t.Equal(widgets[1].Role, allWidgets[1].Role)
+	t.Equal(ws[0].Id, widgets.AllWidgets[0].Id)
+	t.Equal(ws[2].Name, widgets.AllWidgets[2].Name)
+	t.Equal(ws[1].Role, widgets.AllWidgets[1].Role)
 }
 
-func (t *mainSuite) TestHandleGetWidget() {
+func (t *mainSuite) TestGetWidget() {
 	var id int64 = 2
 	idStr := fmt.Sprintf("%d", id)
 
-	urlPath, err := router.Get("HandleGetWidget").URL("id", idStr)
+	urlPath, err := router.Get("GetWidget").URL("id", idStr)
 	t.Must(t.Nil(err))
 
 	resp, err := http.Get(server.URL + urlPath.String())
@@ -46,20 +48,20 @@ func (t *mainSuite) TestHandleGetWidget() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var widget Widget
+	var widget widgets.Widget
 	err = decoder.Decode(&widget)
 	t.Must(t.Nil(err))
 
-	t.Equal(widget.Id, allWidgets[2].Id)
-	t.Equal(widget.Name, allWidgets[2].Name)
-	t.Equal(widget.Role, allWidgets[2].Role)
+	t.Equal(widget.Id, widgets.AllWidgets[2].Id)
+	t.Equal(widget.Name, widgets.AllWidgets[2].Name)
+	t.Equal(widget.Role, widgets.AllWidgets[2].Role)
 }
 
-func (t *mainSuite) TestHandlePostWidget() {
-	urlPath, err := router.Get("HandlePostWidget").URL()
+func (t *mainSuite) TestPostWidget() {
+	urlPath, err := router.Get("PostWidget").URL()
 	t.Must(t.Nil(err))
 
-	widget := Widget{
+	widget := widgets.Widget{
 		Name: "anotherwidget",
 		Role: "controller",
 	}
@@ -76,7 +78,7 @@ func (t *mainSuite) TestHandlePostWidget() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var respWidget Widget
+	var respWidget widgets.Widget
 	err = decoder.Decode(&respWidget)
 	t.Must(t.Nil(err))
 

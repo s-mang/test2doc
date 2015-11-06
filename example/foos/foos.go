@@ -1,4 +1,4 @@
-package main
+package foos
 
 import (
 	"encoding/json"
@@ -16,10 +16,10 @@ type Foo struct {
 	R string
 }
 
-var allFoos map[string]Foo
+var AllFoos map[string]Foo
 
 func init() {
-	allFoos = map[string]Foo{ // map[key]Foo
+	AllFoos = map[string]Foo{ // map[key]Foo
 		"ABeeSee":            Foo{"A", "Bee", "See"},
 		"OneTwoThree":        Foo{"One", "Two", "Three"},
 		"SomethingFunForYou": Foo{"Something", "Fun", "ForYou"},
@@ -27,30 +27,30 @@ func init() {
 	}
 }
 
-// HandleGetFoos retrieves the collection of Foos
-func HandleGetFoos(w http.ResponseWriter, req *http.Request) {
-	foosJSON, err := json.Marshal(allFoos)
+// GetFoos retrieves the collection of Foos
+func GetFoos(w http.ResponseWriter, req *http.Request) {
+	foosJSON, err := json.Marshal(AllFoos)
 	if err != nil {
-		handleError(w, err, http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	fmt.Fprintf(w, string(foosJSON))
 }
 
-// HandleGetFoo retrieves a single Foo
-func HandleGetFoo(w http.ResponseWriter, req *http.Request) {
+// GetFoo retrieves a single Foo
+func GetFoo(w http.ResponseWriter, req *http.Request) {
 	key := mux.Vars(req)["key"]
-	foo, ok := allFoos[key]
+	foo, ok := AllFoos[key]
 	if !ok {
 		err := errors.New("No Foo found.")
-		handleError(w, err, http.StatusNotFound)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
 	fooJSON, err := json.Marshal(foo)
 	if err != nil {
-		handleError(w, err, http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

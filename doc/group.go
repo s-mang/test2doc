@@ -5,7 +5,9 @@ import "text/template"
 var (
 	resourceGroupTmpl *template.Template
 	resourceGroupFmt  = `
-{{range .Resources}}{{.Render}}{{end}}`
+# Group {{.Title}}
+{{range .Resources}}
+{{.Render}}{{end}}`
 )
 
 func init() {
