@@ -1,5 +1,3 @@
-//go:generate stringer -type=ParameterType
-
 package doc
 
 import (
@@ -23,7 +21,7 @@ const (
 
 var (
 	parameterTmpl *template.Template
-	parameterFmt  = `	+ {{.Name}}: {{.Value.Quote}} ({{.Type.String}}){{with .Description}} - {{.}}{{end}}`
+	parameterFmt  = `    + {{.Name}}: {{.Value.Quote}} ({{.Type.String}}){{with .Description}} - {{.}}{{end}}`
 )
 
 func init() {

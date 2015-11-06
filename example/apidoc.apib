@@ -5,19 +5,17 @@ HOST: http://jsonplaceholder.typicode.com
 Fake Online REST API for Testing and Prototyping
 
 
-# Group 
-
-##  [/foos/{key}]
+## /foos/{key}
 
 + Parameters
-	+ key: `ABeeSee` (string)
+    + key: `ABeeSee` (string)
 
 ### Handle Get Foo [GET]
 retrieves a single Foo
 
 + Response 200 
 
-	+ Body
+    + Body
 
             {
                 "B": "A",
@@ -26,14 +24,14 @@ retrieves a single Foo
             }        
 
 
-##  [/foos]
+## /foos
 
 ### Handle Get Foos [GET]
 retrieves the collection of Foos
 
 + Response 200 
 
-	+ Body
+    + Body
 
             {
                 "2": {
@@ -59,17 +57,17 @@ retrieves the collection of Foos
             }        
 
 
-##  [/widgets/{id}]
+## /widgets/{id}
 
 + Parameters
-	+ id: `2` (number)
+    + id: `2` (number)
 
 ### Handle Get Widget [GET]
 retrieves a single Widget
 
 + Response 200 
 
-	+ Body
+    + Body
 
             {
                 "Id": 2,
@@ -78,14 +76,14 @@ retrieves a single Widget
             }        
 
 
-##  [/widgets]
+## /widgets
 
 ### Handle Get Widgets [GET]
 retrieves the collection of Wisdget
 
 + Response 200 
 
-	+ Body
+    + Body
 
             [
                 {
@@ -136,7 +134,7 @@ adds a Widget to the collection
 
 + Request (application/json)
 
-	+ Body
+    + Body
 
             {
                 "Id": 0,
@@ -146,7 +144,7 @@ adds a Widget to the collection
 
 + Response 201 
 
-	+ Body
+    + Body
 
             {
                 "Id": 8,

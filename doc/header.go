@@ -7,9 +7,9 @@ import (
 
 var (
 	headerTmpl *template.Template
-	headerFmt  = `{{with .DisplayHeader}}	+ Headers
-		{{range $name, $vals := .}}
-		{{$name}}: {{$vals | commaJoin}}{{end}}{{end}}`
+	headerFmt  = `{{with .DisplayHeader}}    + Headers
+        {{range $name, $vals := .}}
+        {{$name}}: {{$vals | commaJoin}}{{end}}{{end}}`
 )
 
 func init() {
