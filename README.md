@@ -53,7 +53,7 @@ retrieves a single Widget
 Which you can then parse and host w/ *Apiary.io*, eg [here](http://docs.testingit.apiary.io/#). 
 Or use a custom parser and host yourself.
 
-![screenshot](https://www.dropbox.com/s/iyzr3lds7sguv2h/Screen%20Shot%202015-11-06%20at%209.38.46%20AM.png?dl=0)
+![screenshot](http://postimg.org/image/qhl54gw8r/)
 
 
 ### How can I get this working?
