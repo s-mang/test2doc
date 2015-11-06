@@ -110,7 +110,7 @@ func TestMain(m *testing.M) {
 	// NOTE: if you are using gorilla/mux, you must set the router's 
 	//  'KeepContext' to true, so that url parameters can be accessed
 	//  after the request has been handled.
-	router := MyNewRouterFn()
+	router := NewRouter()
 	router.KeepContext = true
 ```
 
