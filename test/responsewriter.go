@@ -9,6 +9,7 @@ import (
 
 type ResponseWriter struct {
 	HandlerInfo HandlerInfo
+	URLVars     map[string]string
 	W           *httptest.ResponseRecorder
 }
 

@@ -3,6 +3,9 @@ package doc
 import (
 	"net/http"
 	"net/url"
+	"strings"
+
+	"github.com/adams-sarah/test2doc/doc/parse"
 )
 
 type URL struct {
@@ -15,11 +18,18 @@ func NewURL(req *http.Request) *URL {
 	u := &URL{
 		rawURL: req.URL,
 	}
-	u.ParameterizedPath = paramPath(req.URL.String())
+	u.ParameterizedPath, u.Parameters = paramPath(req)
 	return u
 }
 
-// TODO: replace params in path with {param-name}
-func paramPath(urlPath string) string {
-	return urlPath
+func paramPath(req *http.Request) (string, []Parameter) {
+	uri := req.URL.String()
+	vars := (*parse.Extractor)(req)
+	params := []Parameter{}
+	for k, v := range vars {
+		uri = strings.Replace(uri, "/"+v, "/{"+k+"}", 1)
+		params = append(params, MakeParameter(k, v))
+	}
+
+	return uri, params
 }

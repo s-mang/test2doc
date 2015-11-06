@@ -19,6 +19,9 @@ func TestRunner(t *testing.T) {
 	var err error
 
 	router = newRouter()
+	router.KeepContext = true
+
+	test.RegisterURLVarExtractor(mux.Vars)
 
 	server, err = test.NewServer(router, ".")
 	if err != nil {

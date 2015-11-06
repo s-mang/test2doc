@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 
 	"github.com/adams-sarah/test2doc/doc"
+	"github.com/adams-sarah/test2doc/doc/parse"
 )
 
 // resources = map[uri]Resource
@@ -18,6 +19,11 @@ type Server struct {
 
 // TODO: filter out 404 responses
 func NewServer(handler http.Handler, pkgDir string) (s *Server, err error) {
+	// check if url var extractor func is set
+	if parse.Extractor == nil {
+		panic("please set a URLVarExtractor.")
+	}
+
 	outDoc, err := doc.NewDoc(pkgDir)
 	if err != nil {
 		return s, err
@@ -46,14 +52,6 @@ func (s *Server) Finish() {
 
 func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		u := doc.NewURL(req)
-		path := u.ParameterizedPath
-
-		// setup
-		if resources[path] == nil {
-			resources[path] = doc.NewResource(u)
-		}
-
 		// copy request body into Request object
 		docReq, err := doc.NewRequest(req)
 		if err != nil {
@@ -64,7 +62,16 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 		// record response
 		rw := httptest.NewRecorder()
 		resp := NewResponseWriter(rw)
+
 		handler.ServeHTTP(resp, req)
+
+		// setup resource
+		u := doc.NewURL(req)
+		path := u.ParameterizedPath
+
+		if resources[path] == nil {
+			resources[path] = doc.NewResource(u)
+		}
 
 		// store response body in Response object
 		docResp := doc.NewResponse(resp.W)
