@@ -7,7 +7,7 @@ import (
 
 var (
 	responseTmpl *template.Template
-	responseFmt  = `+ Response {{.StatusCode}} {{if .HasContentType}}({{.ContentType}}){{end}}
+	responseFmt  = `+ Response {{.StatusCode}} {{if .HasContentType}}({{.Header.ContentType}}){{end}}
 {{with .Header}}
 {{.Render}}{{end}}{{with .Body}}
 {{.Render}}{{end}}
