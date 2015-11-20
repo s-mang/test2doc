@@ -18,6 +18,11 @@ func GetTitle(longFnName string) string {
 	re := regexp.MustCompile(camelCase)
 
 	words := re.FindAllString(shortFnName, -1)
+
+	for i := range words {
+		words[i] = strings.Title(words[i])
+	}
+
 	return strings.Join(words, " ")
 }
 
@@ -30,6 +35,13 @@ func GetDescription(longFnName string) (desc string) {
 	}
 
 	return
+}
+
+// IsFuncInPkg checks if this func belongs to the package
+func IsFuncInPkg(longFnName string) bool {
+	shortFnName := getShortFnName(longFnName)
+	doc := funcsMap[shortFnName]
+	return doc != nil
 }
 
 // getShortFnName returns the name of the function, given

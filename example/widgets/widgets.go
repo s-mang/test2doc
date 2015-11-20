@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -77,7 +76,6 @@ func PostWidget(w http.ResponseWriter, req *http.Request) {
 
 	err := decoder.Decode(&widget)
 	if err != nil {
-		log.Println(1)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

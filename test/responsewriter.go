@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"runtime"
+
+	"github.com/adams-sarah/test2doc/doc/parse"
 )
 
 type ResponseWriter struct {
@@ -38,17 +40,33 @@ func (rw *ResponseWriter) WriteHeader(c int) {
 }
 
 func (rw *ResponseWriter) setHandlerInfo() {
-	pc, file, _, ok := runtime.Caller(3)
-	if !ok {
-		// TODO: handle this better?
-		log.Println("setHandlerInfo: !ok")
-		return
-	}
+	i := 1
+	max := 15
 
-	fn := runtime.FuncForPC(pc)
+	var pc uintptr
+	var file, fnName string
+	var ok bool
+
+	// iterate until we find a func in this pkg (the handler)
+	for i < max {
+		pc, file, _, ok = runtime.Caller(i)
+		if !ok {
+			log.Println("test2doc: setHandlerInfo: !ok")
+			return
+		}
+
+		fn := runtime.FuncForPC(pc)
+		fnName = fn.Name()
+
+		if parse.IsFuncInPkg(fnName) {
+			break
+		}
+
+		i++
+	}
 
 	rw.HandlerInfo = HandlerInfo{
 		FileName: file,
-		FuncName: fn.Name(),
+		FuncName: fnName,
 	}
 }

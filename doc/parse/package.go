@@ -47,7 +47,7 @@ func getPackageDoc(dir string) (*doc.Package, error) {
 	// return the first pkg
 	for pkgName, pkgAST := range pkgs {
 		importPath := dir + "/" + pkgName
-		return doc.New(pkgAST, importPath, doc.AllMethods), nil
+		return doc.New(pkgAST, importPath, doc.AllDecls), nil
 	}
 
 	return nil, nil
