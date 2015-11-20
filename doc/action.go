@@ -9,8 +9,9 @@ import (
 var (
 	actionTmpl *template.Template
 	actionFmt  = `### {{.Title}} [{{.Method}}]
-{{.Description}}{{with .Request}}{{.Render}}{{end}}
-{{with .Response}}{{.Render}}{{end}}`
+{{.Description}}{{range $req, $resp := .Requests}}
+{{with $req}}{{.Render}}{{end}}
+{{with $resp}}{{.Render}}{{end}}{{end}}`
 )
 
 func init() {
@@ -21,8 +22,7 @@ type Action struct {
 	Title       string
 	Description string
 	Method      HTTPMethod
-	Request     Request // status OK
-	Response    Response
+	Requests    map[*Request]*Response
 
 	// TODO: document non-OK requests ??
 }
@@ -31,16 +31,19 @@ func (a *Action) Render() string {
 	return render(actionTmpl, a)
 }
 
-func NewAction(req *Request, resp *Response, handlerName string) (*Action, error) {
+func NewAction(method, handlerName string) (*Action, error) {
 	title := parse.GetTitle(handlerName)
 	desc := parse.GetDescription(handlerName)
 
 	return &Action{
 		Title:       title,
 		Description: desc,
-		Method:      HTTPMethod(req.Method),
-		Request:     *req,
-		Response:    *resp,
+		Method:      HTTPMethod(method),
+		Requests:    map[*Request]*Response{},
 	}, nil
 
+}
+
+func (a *Action) AddRequest(req *Request, resp *Response) {
+	a.Requests[req] = resp
 }

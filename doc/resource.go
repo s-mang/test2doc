@@ -46,6 +46,11 @@ func (r *Resource) AddAction(action *Action) {
 	r.Actions[action.Method] = action
 }
 
+func (r *Resource) FindAction(httpMethod string) *Action {
+	method := HTTPMethod(httpMethod)
+	return r.Actions[method]
+}
+
 func (r *Resource) Render() string {
 	return render(resourceTmpl, r)
 }

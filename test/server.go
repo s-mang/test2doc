@@ -76,14 +76,22 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 		// store response body in Response object
 		docResp := doc.NewResponse(resp.W)
 
-		// add Action to Resource's list of Actions
-		action, err := doc.NewAction(docReq, docResp, resp.HandlerInfo.FuncName)
-		if err != nil {
-			log.Println("Error:", err.Error())
-			return
+		// find action
+		action := resources[path].FindAction(req.Method)
+		if action == nil {
+			// make new action
+			action, err = doc.NewAction(req.Method, resp.HandlerInfo.FuncName)
+			if err != nil {
+				log.Println("Error:", err.Error())
+				return
+			}
+
+			// add Action to Resource's list of Actions
+			resources[path].AddAction(action)
 		}
 
-		resources[path].AddAction(action)
+		// add request, response to action
+		action.AddRequest(docReq, docResp)
 
 		// copy response over to w
 		doc.CopyHeader(w.Header(), resp.Header())
