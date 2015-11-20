@@ -7,8 +7,8 @@ var (
 	resourceFmt  = `## {{.URL.ParameterizedPath}}
 {{.Description}}{{if .URL.Parameters}}
 + Parameters
-{{range .URL.Parameters}}{{.Render}}{{end}}
-{{end}}{{range .Actions}}
+{{range .URL.Parameters}}{{.Render}}
+{{end}}{{end}}{{range .Actions}}
 {{.Render}}{{end}}
 `
 )

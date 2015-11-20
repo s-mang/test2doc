@@ -86,8 +86,8 @@ func handleAndRecord(handler http.Handler, outDoc *doc.Doc) http.HandlerFunc {
 		resources[path].AddAction(action)
 
 		// copy response over to w
-		w.WriteHeader(resp.W.Code)
 		doc.CopyHeader(w.Header(), resp.Header())
+		w.WriteHeader(resp.W.Code)
 		w.Write(resp.W.Body.Bytes())
 	}
 }

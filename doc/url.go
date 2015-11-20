@@ -23,9 +23,15 @@ func NewURL(req *http.Request) *URL {
 }
 
 func paramPath(req *http.Request) (string, []Parameter) {
-	uri := req.URL.String()
+	uri, err := url.QueryUnescape(req.URL.String())
+	if err != nil {
+		// fall back to unescaped uri
+		uri = req.URL.String()
+	}
+
 	vars := (*parse.Extractor)(req)
 	params := []Parameter{}
+
 	for k, v := range vars {
 		uri = strings.Replace(uri, "/"+v, "/{"+k+"}", 1)
 		params = append(params, MakeParameter(k, v))

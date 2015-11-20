@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 
 	"github.com/adams-sarah/test2doc/doc/parse"
@@ -49,7 +50,7 @@ func NewDoc(pkgDir string) (doc *Doc, err error) {
 
 	doc = &Doc{
 		Group: ResourceGroup{
-			Title: pkgDoc.Name,
+			Title: strings.Title(pkgDoc.Name),
 		},
 		file: fi,
 	}

@@ -15,7 +15,7 @@ const (
 )
 
 const (
-	numberRe = `[0-9\.]+`
+	numberRe = `^[0-9\.]+$`
 	boolRe   = `^(?:[tT][rR][uU][eE]|[fF][aA][lL][sS][eE])$`
 )
 
