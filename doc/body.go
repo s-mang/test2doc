@@ -6,7 +6,7 @@ var (
 	bodyTmpl *template.Template
 	bodyFmt  = `    + Body
 
-            {{.FormattedJSON}}        
+            {{.FormattedStr}}        
 `
 )
 
@@ -14,15 +14,35 @@ func init() {
 	bodyTmpl = template.Must(template.New("body").Parse(bodyFmt))
 }
 
-type Body []byte
+type Body struct {
+	Content     []byte
+	ContentType string
+}
+
+func NewBody(content []byte, contentType string) (b *Body) {
+	if len(content) > 0 {
+		b = &Body{
+			Content:     content,
+			ContentType: contentType,
+		}
+	}
+
+	return b
+}
 
 func (b *Body) Render() string {
 	return render(bodyTmpl, b)
 }
 
-// TODO: support other content-types
+func (b *Body) FormattedStr() string {
+	if b.ContentType == "application/json" {
+		return b.FormattedJSON()
+	}
+	return string(b.Content)
+}
+
 func (b *Body) FormattedJSON() string {
-	fbody, err := indentJSONBody(string(*b))
+	fbody, err := indentJSONBody(string(b.Content))
 	if err != nil {
 		panic(err.Error())
 	}

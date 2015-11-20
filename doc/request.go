@@ -19,7 +19,7 @@ func init() {
 
 type Request struct {
 	Header *Header
-	Body   Body
+	Body   *Body
 	Method string
 
 	// TODO:
@@ -36,10 +36,11 @@ func NewRequest(req *http.Request) (*Request, error) {
 	req.Body = nopCloser{body1}
 
 	b2bytes := body2.Bytes()
+	contentType := req.Header.Get("Content-Type")
 
 	return &Request{
 		Header: NewHeader(req.Header),
-		Body:   b2bytes,
+		Body:   NewBody(b2bytes, contentType),
 		Method: req.Method,
 	}, nil
 }
@@ -49,7 +50,7 @@ func (r *Request) Render() string {
 }
 
 func (r *Request) HasBody() bool {
-	return len(r.Body) > 0
+	return r.Body != nil
 }
 
 func (r *Request) HasHeader() bool {

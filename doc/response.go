@@ -22,7 +22,7 @@ type Response struct {
 	StatusCode  int
 	Description string
 	Header      *Header
-	Body        Body
+	Body        *Body
 
 	// TODO:
 	// Attributes
@@ -30,10 +30,13 @@ type Response struct {
 }
 
 func NewResponse(resp *httptest.ResponseRecorder) *Response {
+	content := resp.Body.Bytes()
+	contentType := resp.Header().Get("Content-Type")
+
 	return &Response{
 		StatusCode: resp.Code,
 		Header:     NewHeader(resp.Header()),
-		Body:       resp.Body.Bytes(),
+		Body:       NewBody(content, contentType),
 	}
 }
 

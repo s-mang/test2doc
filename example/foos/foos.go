@@ -35,6 +35,8 @@ func GetFoos(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+
 	fmt.Fprintf(w, string(foosJSON))
 }
 
@@ -53,6 +55,8 @@ func GetFoo(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	fmt.Fprintf(w, string(fooJSON))
 }

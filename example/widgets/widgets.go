@@ -41,6 +41,8 @@ func GetWidgets(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+
 	fmt.Fprintf(w, string(widgetsJSON))
 }
 
@@ -62,6 +64,8 @@ func GetWidget(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	fmt.Fprintf(w, string(widgetJSON))
 }
@@ -93,6 +97,8 @@ func PostWidget(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, string(widgetJSON))
