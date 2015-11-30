@@ -1,0 +1,341 @@
+FORMAT: 1A
+HOST: http://api.foosandwidgets.com
+
+# Foos and Widgets API
+REST API for all things foo/widget.
+
+FORMAT: 1A
+HOST: http://jsonplaceholder.typicode.com
+
+# JSON Placeholder API
+Fake Online REST API for Testing and Prototyping
+
+
+# Group foos
+
+## /foos/{key}
+
++ Parameters
+    + key: `ABeeSee` (string)
+
+### Get Foo [GET]
+retrieves a single Foo
+
++ Response 200 
+
+    + Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+
+
+
+## /foos
+
+### Get Foos [GET]
+retrieves the collection of Foos
+
++ Response 200 
+
+    + Body
+
+            {
+                "2": {
+                    "B": "",
+                    "A": "",
+                    "R": "2"
+                },
+                "ABeeSee": {
+                    "B": "A",
+                    "A": "Bee",
+                    "R": "See"
+                },
+                "OneTwoThree": {
+                    "B": "One",
+                    "A": "Two",
+                    "R": "Three"
+                },
+                "SomethingFunForYou": {
+                    "B": "Something",
+                    "A": "Fun",
+                    "R": "ForYou"
+                }
+            }        
+
+
+
+# Group widgets
+
+## /widgets/{id}
+
++ Parameters
+    + id: `2` (number)
+
+### Get Widget [GET]
+retrieves a single Widget
+
++ Response 200 
+
+    + Body
+
+            {
+                "Id": 2,
+                "Name": "Pencil",
+                "Role": "Utensil"
+            }        
+
+
+
+## /widgets
+
+### Get Widgets [GET]
+retrieves the collection of Wisdget
+
++ Response 200 
+
+    + Body
+
+            [
+                {
+                    "Id": 0,
+                    "Name": "Nothing",
+                    "Role": "N/A"
+                },
+                {
+                    "Id": 1,
+                    "Name": "Jibjab",
+                    "Role": "Instrument"
+                },
+                {
+                    "Id": 2,
+                    "Name": "Pencil",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 3,
+                    "Name": "Fork",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 4,
+                    "Name": "Password",
+                    "Role": "Credential"
+                },
+                {
+                    "Id": 5,
+                    "Name": "SpanFrankisco",
+                    "Role": "Home"
+                },
+                {
+                    "Id": 6,
+                    "Name": "Doc",
+                    "Role": "Villain"
+                },
+                {
+                    "Id": 7,
+                    "Name": "Coff3e",
+                    "Role": "Hack"
+                }
+            ]        
+
+
+### Post Widget [POST]
+adds a Widget to the collection
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "Id": 0,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
+
++ Response 201 
+
+    + Body
+
+            {
+                "Id": 8,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
+
+
+
+# Group Foos
+
+## /foos/{key}
+
++ Parameters
+    + key: `ABeeSee` (string)
+
+### Get Foo [GET]
+retrieves a single Foo
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+
+
+
+## /foos
+
+### Get Foos [GET]
+retrieves the collection of Foos
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "2": {
+                    "B": "",
+                    "A": "",
+                    "R": "2"
+                },
+                "ABeeSee": {
+                    "B": "A",
+                    "A": "Bee",
+                    "R": "See"
+                },
+                "OneTwoThree": {
+                    "B": "One",
+                    "A": "Two",
+                    "R": "Three"
+                },
+                "SomethingFunForYou": {
+                    "B": "Something",
+                    "A": "Fun",
+                    "R": "ForYou"
+                }
+            }        
+
+
+
+# Group Widgets
+
+## /widgets/{id}
+
++ Parameters
+    + id: `2` (number)
+
+### Get Widget [GET]
+retrieves a single Widget
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "Id": 2,
+                "Name": "Pencil",
+                "Role": "Utensil"
+            }        
+
+
+
+## /widgets
+
+### Get Widgets [GET]
+retrieves the collection of Wisdget
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            [
+                {
+                    "Id": 0,
+                    "Name": "Nothing",
+                    "Role": "N/A"
+                },
+                {
+                    "Id": 1,
+                    "Name": "Jibjab",
+                    "Role": "Instrument"
+                },
+                {
+                    "Id": 2,
+                    "Name": "Pencil",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 3,
+                    "Name": "Fork",
+                    "Role": "Utensil"
+                },
+                {
+                    "Id": 4,
+                    "Name": "Password",
+                    "Role": "Credential"
+                },
+                {
+                    "Id": 5,
+                    "Name": "SpanFrankisco",
+                    "Role": "Home"
+                },
+                {
+                    "Id": 6,
+                    "Name": "Doc",
+                    "Role": "Villain"
+                },
+                {
+                    "Id": 7,
+                    "Name": "Coff3e",
+                    "Role": "Hack"
+                }
+            ]        
+
+
+### Post Widget [POST]
+adds a Widget to the collection
+
+
++ Request (application/json)
+
+
+
+    + Body
+
+            {
+                "Id": 0,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
+
++ Response 201 (application/json)
+
+
+
+    + Body
+
+            {
+                "Id": 8,
+                "Name": "anotherwidget",
+                "Role": "controller"
+            }        
+
+
