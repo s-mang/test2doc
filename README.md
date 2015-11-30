@@ -69,10 +69,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var (
-	router *mux.Router
-	server *test.Server
-)
+var server *test.Server
 
 func TestMain(m *testing.M) {
 	// 1. Tell test2doc how to get URL vars out of your HTTP requests
