@@ -56,9 +56,11 @@ Or use a custom parser and host yourself.
 ![screenshot](http://s17.postimg.org/6mz3ich1b/Screen_Shot_2015_11_06_at_9_38_46_AM.png)
 
 
-### How can I get this working?
+### Integrating test2doc
 
 Very few additions, and only to your testing code.
+
+#### 1. Add 3 things to your TestMain:
 
 ```go
 
@@ -74,6 +76,7 @@ func TestMain(m *testing.M) {
 	//      where the returned map is of the form map[key]value
 	test.RegisterURLVarExtractor(myURLVarExtractorFn)
 
+
 	// 2. You must use test2doc/test's wrapped httptest.Server instead of
 	//    the raw httptest.Server, so that test2doc can listen to and
 	//    record requests & responses.
@@ -86,10 +89,8 @@ func TestMain(m *testing.M) {
 		panic(err.Error())
 	}
 
-
 	// .. then run your tests as usual
-	// (remember that os.Exit does not respect defers,
-	//	 so you'll )
+	// (remember that os.Exit does not respect defers)
 	exitCode := m.Run()
 
 
@@ -103,6 +104,7 @@ func TestMain(m *testing.M) {
 
 ```
 
+#### Router-specific configurations
 
 `gorilla/mux` configurations
 
@@ -112,14 +114,109 @@ func TestMain(m *testing.M) {
 	//  after the request has been handled.
 	router := NewRouter()
 	router.KeepContext = true
+	
+	// Use mux.Vars func as URLVarExtractor
+	test.RegisterURLVarExtractor(mux.Vars)
+```
+
+`julienschmidt/httprouter` configurations
+
+```go
+// MakeURLVarExtractor returns a func which extracts 
+// url vars from a request for test2doc documentation generation
+func MakeURLVarExtractor(router *httprouter.Router) parse.URLVarExtractor {
+	return func(req *http.Request) map[string]string {
+		// httprouter Lookup func needs a trailing slash on path
+		path := req.URL.Path
+		if !strings.HasSuffix(path, "/") {
+			path += "/"
+		}
+
+		_, params, ok := router.Lookup(req.Method, path)
+		if !ok {
+			return nil
+		}
+
+		paramsMap := make(map[string]string, len(params))
+		for _, p := range params {
+			paramsMap[p.Key] = p.Value
+		}
+
+		return paramsMap
+	}
+}
+
+// and then..
+test.RegisterURLVarExtractor(MakeURLVarExtractor(router))
+
+```
+
+#### 2. Combine the output `.apib` files
+`test2doc` will spit out one doc file per package.
+
+Eg. A package tree like:
+
+```
+.
+├── foos
+│   ├── foos.go
+│   └── foos_test.go
+└── widgets
+    ├── widgets.go
+    └── widgets_test.go
+```
+
+Will produce separate apib files, eg:
+
+```
+.
+├── foos
+│   ├── ...
+│   └── foos.apib
+└── widgets
+    ├── ...
+    └── widgets.apib
+```
+
+
+You will need to add the doc header (below) and combine all of the package doc files after your tests run.
+
+eg.:
+
+```bash
+# find all *.apib files (after tests have run, generated files)
+files=`find . -type f -name "*.apib"`
+
+# copy template file to new apiary.apib file
+cp apib.tmpl apiary.apib
+
+# copy contents of each generated apib file into apiary.apib
+# and delete the apib file
+for f in ${files[@]}; do
+	cat $f >> apiary.apib
+	rm $f
+done
+```
+
+where `apib.tmpl` includes the doc header information. 
+Something like:
+
+```
+FORMAT: 1A
+HOST: https://api.mysite.com
+
+# The API for My Site
+
+My Site is a fancy site. The API is also fancy.
+
 ```
 
 <br>
 
 ### Things to note:
-1. Go pkg name **=>** `Group` name
-2. Go handler name **=>** endpoint title
-3. Go handler `godoc` **=>** endpoint description
+1. Go pkg name **becomes** `Group` name
+2. Go handler name **becomes** endpoint title
+3. Go handler `godoc` string **becomes** endpoint description
 4. **Everything else is recorded & interpreted directly from the requests and responses**
 
 Eg.
@@ -150,52 +247,8 @@ retrieves a single Widget
 
 
 ## OUTSTANDING TODOS:
-#### 1. Concat package `apib` docs
-The biggest outstanding problem with `test2doc` is that after each package generates its own `apib` file, there is no tooling to concatenate the files into your *one* API Blueprint file.
 
-Eg. A package tree like:
-
-```
-.
-├── foos
-│   ├── foos.go
-│   └── foos_test.go
-└── widgets
-    ├── widgets.go
-    └── widgets_test.go
-```
-
-Will produce separate apib files, eg:
-
-```
-.
-├── foos
-│   ├── ...
-│   └── foos.apib
-└── widgets
-    ├── ...
-    └── widgets.apib
-```
-
-But we want something like:
-
-```
-.
-├── apidoc.apib
-├── foos
-│   └── ...
-└── widgets
-    └── ...
-```
-
-Where `apidoc.apib` includes the contents of both `foos.apib` and `widgets.apib`.
-
-There are, of course, many ways to do this.
-
-But I'm hoping for **your** suggestions on the best way to integrate this into a testing workflow.
-
-
-#### 2. Query string params
+#### 1. Query string params
 This one will be a simple addition. Just a matter of time.
 
 
