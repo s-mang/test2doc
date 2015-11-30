@@ -3,7 +3,7 @@
 set -e
 
 # find all *.apib files (after tests have run, generated files)
-files=`find ./** -type f -name "*.apib"`
+files=`find ./**/ -type f -name "*.apib"`
 
 # copy template file to new apiary.apib file
 cp apib.tmpl apiary.apib

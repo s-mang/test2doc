@@ -246,10 +246,3 @@ retrieves a single Widget
 <br>
 
 
-## OUTSTANDING TODOS:
-
-#### 1. Query string params
-This one will be a simple addition. Just a matter of time.
-
-
-

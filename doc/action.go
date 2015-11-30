@@ -24,8 +24,6 @@ type Action struct {
 	Description string
 	Method      HTTPMethod
 	Requests    map[*Request]*Response
-
-	// TODO: document non-OK requests ??
 }
 
 func (a *Action) Render() string {

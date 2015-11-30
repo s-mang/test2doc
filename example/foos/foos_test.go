@@ -11,7 +11,7 @@ func (t *mainSuite) TestGetFoos() {
 	urlPath, err := router.Get("GetFoos").URL()
 	t.Must(t.Nil(err))
 
-	resp, err := http.Get(server.URL + urlPath.String())
+	resp, err := http.Get(server.URL + urlPath.String() + "?n=10")
 	t.Must(t.Nil(err))
 
 	t.Must(t.Equal(resp.StatusCode, http.StatusOK))
