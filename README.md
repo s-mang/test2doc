@@ -66,7 +66,6 @@ Very few additions, and only to your testing code.
 
 import (
 	"github.com/adams-sarah/test2doc/test"
-	"github.com/gorilla/mux"
 )
 
 var server *test.Server
