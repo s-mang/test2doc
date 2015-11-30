@@ -8,8 +8,8 @@ import (
 var (
 	headerTmpl *template.Template
 	headerFmt  = `{{with .DisplayHeader}}    + Headers
-        {{range $name, $vals := .}}
-        {{$name}}: {{$vals | commaJoin}}{{end}}{{end}}
+            {{range $name, $vals := .}}
+            {{$name}}: {{$vals | commaJoin}}{{end}}{{end}}
 `
 )
 
