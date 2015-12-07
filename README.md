@@ -83,10 +83,8 @@ func TestMain(m *testing.M) {
 	//    the raw httptest.Server, so that test2doc can listen to and
 	//    record requests & responses.
 	//
-	//    NewServer takes 2 arguments:
-	//    - your HTTP handler
-	//    - the path to where you would like the apib doc file
-	server, err := test.NewServer(router, ".")
+	//    NewServer takes your HTTP handler as an argument
+	server, err := test.NewServer(router)
 	if err != nil {
 		panic(err.Error())
 	}

@@ -24,7 +24,7 @@ func TestRunner(t *testing.T) {
 
 	test.RegisterURLVarExtractor(mux.Vars)
 
-	server, err = test.NewServer(router, ".")
+	server, err = test.NewServer(router)
 	if err != nil {
 		panic(err.Error())
 	}

@@ -1,0 +1,65 @@
+
+# Group Foos
+
+## /foos/{key}
+
++ Parameters
+    + key: `ABeeSee` (string)
+
+### Get Foo [GET]
+retrieves a single Foo
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "B": "A",
+                "A": "Bee",
+                "R": "See"
+            }        
+
+
+
+## /foos{?n}
+
++ Parameters
+    + n: `10` (number)
+
+### Get Foos [GET]
+retrieves the collection of Foos
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "2": {
+                    "B": "",
+                    "A": "",
+                    "R": "2"
+                },
+                "ABeeSee": {
+                    "B": "A",
+                    "A": "Bee",
+                    "R": "See"
+                },
+                "OneTwoThree": {
+                    "B": "One",
+                    "A": "Two",
+                    "R": "Three"
+                },
+                "SomethingFunForYou": {
+                    "B": "Something",
+                    "A": "Fun",
+                    "R": "ForYou"
+                }
+            }        
+
+
