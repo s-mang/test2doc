@@ -33,6 +33,18 @@ func (t *mainSuite) TestGetWidgets() {
 	t.Equal(ws[1].Role, widgets.AllWidgets[1].Role)
 }
 
+func (t *mainSuite) TestGetWidgetBadRequest() {
+	idStr := "hello"
+
+	urlPath, err := router.Get("GetWidget").URL("id", idStr)
+	t.Must(t.Nil(err))
+
+	resp, err := http.Get(server.URL + urlPath.String())
+	t.Must(t.Nil(err))
+
+	t.Must(t.Equal(resp.StatusCode, http.StatusBadRequest))
+}
+
 func (t *mainSuite) TestGetWidget() {
 	var id int64 = 2
 	idStr := fmt.Sprintf("%d", id)

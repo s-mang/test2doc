@@ -19,9 +19,10 @@ func init() {
 }
 
 type Request struct {
-	Header *Header
-	Body   *Body
-	Method string
+	Header   *Header
+	Body     *Body
+	Method   string
+	Response *Response
 
 	// TODO:
 	// Attributes
