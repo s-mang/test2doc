@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/ivaningrooves/test2doc/doc/parse"
 	"log"
 	"net/http"
 	"net/http/httptest"
