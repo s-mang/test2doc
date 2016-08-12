@@ -1,6 +1,6 @@
 # test2doc
 
-Automatically generate API documentation from your Go unit tests: a simple addition to Go's testing pkg
+Automatically generate HTTP API documentation from your Go unit tests: a simple addition to Go's testing pkg
 
 ### Diving right in..
 
