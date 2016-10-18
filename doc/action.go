@@ -67,6 +67,12 @@ func NewAction(method, handlerName string) (*Action, error) {
 }
 
 func (a *Action) AddRequest(req *Request, resp *Response) {
+	if req.Description != "" {
+		a.Description = req.Description
+	}
+	if req.Title != "" {
+		a.Title = req.Title
+	}
 	req.Response = resp
 	a.Requests = append(a.Requests, req)
 }
