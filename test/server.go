@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"sort"
 
 	"github.com/adams-sarah/test2doc/doc"
 	"github.com/adams-sarah/test2doc/doc/parse"
@@ -40,8 +41,14 @@ func NewServer(handler http.Handler) (s *Server, err error) {
 func (s *Server) Finish() {
 	s.Close()
 
-	for _, r := range resources {
-		s.doc.AddResource(r)
+	// sort resources by path
+	var uris []string
+	for k := range resources {
+		uris = append(uris, k)
+	}
+	sort.Strings(uris)
+	for _, uri := range uris {
+		s.doc.AddResource(resources[uri])
 	}
 
 	err := s.doc.Write()
