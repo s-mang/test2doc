@@ -1,6 +1,9 @@
 package doc
 
-import "text/template"
+import (
+	"strings"
+	"text/template"
+)
 
 var (
 	bodyTmpl *template.Template
@@ -35,7 +38,7 @@ func (b *Body) Render() string {
 }
 
 func (b *Body) FormattedStr() string {
-	if b.ContentType == "application/json" {
+	if strings.HasPrefix(b.ContentType, "application/json") {
 		return b.FormattedJSON()
 	}
 	return string(b.Content)
