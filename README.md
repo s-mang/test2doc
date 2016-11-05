@@ -58,6 +58,42 @@ Or use a custom parser and host yourself.
 ![screenshot](http://s17.postimg.org/6mz3ich1b/Screen_Shot_2015_11_06_at_9_38_46_AM.png)
 
 
+<br>
+
+### Things to note:
+1. Go pkg name **becomes** `Group` name
+2. Go handler name **becomes** endpoint title
+3. Go handler `godoc` string **becomes** endpoint description
+4. **Everything else is recorded & interpreted directly from the requests and responses**
+
+Eg.
+```go
+package widget
+
+// GetWidget retrieves a single Widget
+func GetWidget(w http.ResponseWriter, req *http.Request)
+```
+
+becomes
+
+```
+# Group widget
+
+### Get Widget [*]
+retrieves a single Widget
+```
+
+
+<br>
+
+### Installation
+
+`go get github.com/adams-sarah/test2doc/...`
+
+<br>
+
+
+
 ### Integrating test2doc
 
 Very few additions, and only to your testing code.
@@ -212,39 +248,4 @@ HOST: https://api.mysite.com
 My Site is a fancy site. The API is also fancy.
 
 ```
-
-<br>
-
-### Things to note:
-1. Go pkg name **becomes** `Group` name
-2. Go handler name **becomes** endpoint title
-3. Go handler `godoc` string **becomes** endpoint description
-4. **Everything else is recorded & interpreted directly from the requests and responses**
-
-Eg.
-```go
-package widget
-
-// GetWidget retrieves a single Widget
-func GetWidget(w http.ResponseWriter, req *http.Request)
-```
-
-becomes
-
-```
-# Group widget
-
-### Get Widget [*]
-retrieves a single Widget
-```
-
-
-<br>
-
-### Installation
-
-`go get github.com/adams-sarah/test2doc/...`
-
-<br>
-
 
