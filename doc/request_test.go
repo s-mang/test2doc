@@ -16,7 +16,7 @@ func (t *suite) TestNewRequest_RequestBodyIsCorrectlyCopied() {
 	apiReq, err := NewRequest(req)
 	t.Must(t.Nil(err))
 
-	t.Equal(string(apiReq.Body), testRequestBody)
+	t.Equal(string(apiReq.Body.Content), testRequestBody)
 }
 
 func (t *suite) TestNewRequest_OriginalRequestBodyDoesNotChange() {

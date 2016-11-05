@@ -19,7 +19,7 @@ func (t *suite) TestNewResponse_ResponseBodyIsCorrectlyCopied() {
 
 	apiResp := NewResponse(w)
 
-	t.Equal(string(apiResp.Body), testResponseBody)
+	t.Equal(string(apiResp.Body.Content), testResponseBody)
 }
 
 func (t *suite) TestNewResponse_OriginalResponseBodyDoesNotChange() {
