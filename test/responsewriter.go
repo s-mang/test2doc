@@ -60,6 +60,9 @@ func (rw *ResponseWriter) setHandlerInfo() {
 
 		fnInPkg = parse.IsFuncInPkg(fnName)
 		if sawPkg && !fnInPkg {
+			pc, file, _, ok = runtime.Caller(i - 1)
+			fn := runtime.FuncForPC(pc)
+			fnName = fn.Name()
 			break
 		}
 
