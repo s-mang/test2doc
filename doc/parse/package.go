@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"fmt"
 	"go/doc"
 	"go/parser"
 	"go/token"
@@ -13,6 +14,7 @@ var (
 
 	// go/doc stores package 'Funcs' as a slice
 	// - we need to look up documentation by func name
+
 	funcsMap map[string]*doc.Func
 )
 
@@ -31,10 +33,29 @@ func NewPackageDoc(dir string) (*doc.Package, error) {
 }
 
 func setDocFuncsMap(pkgDoc *doc.Package) {
-	funcsMap = make(map[string]*doc.Func, len(pkgDoc.Funcs))
+	typeFuncsMap := getPkgTypesFunctions(pkgDoc)
+	funcsMap = make(map[string]*doc.Func, len(pkgDoc.Funcs)+len(typeFuncsMap))
+
 	for _, fn := range pkgDoc.Funcs {
 		funcsMap[fn.Name] = fn
 	}
+
+	for k, fn := range typeFuncsMap {
+		funcsMap[k] = fn
+	}
+}
+
+func getPkgTypesFunctions(pkgDoc *doc.Package) map[string]*doc.Func {
+	result := make(map[string]*doc.Func)
+	for _, t := range pkgDoc.Types {
+		for _, f := range t.Methods {
+			if f.Doc != "" {
+				result[fmt.Sprintf("%s.%s", t.Name, f.Name)] = f
+			}
+		}
+	}
+
+	return result
 }
 
 func getPackageDoc(dir string) (*doc.Package, error) {

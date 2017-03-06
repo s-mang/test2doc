@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"sort"
 
-	"github.com/adams-sarah/test2doc/doc"
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/ivaningrooves/test2doc/doc"
+	"github.com/ivaningrooves/test2doc/doc/parse"
 )
 
 // resources = map[uri]Resource
