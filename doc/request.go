@@ -50,7 +50,6 @@ func NewRequest(req *http.Request) (*Request, error) {
 		Header: NewHeader(req.Header),
 		Body:   NewBody(b2bytes, contentType),
 		Method: req.Method,
-		// Attributes: []Attribute{ Attribute{ "name", "desc", ParameterValue("val"), String, true, "default" } },
 		Attributes: getAttributesOf(contentType, b2bytes),
 	}, nil
 }
