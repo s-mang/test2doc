@@ -114,12 +114,13 @@ func getPropertyOf(key string) (description string, isRequired bool, defaultValu
 		kv := strings.Split(pair, "=")
 		if kv[0] == "description" && len(kv) >= 2 {
 			description = kv[1]
-		}
-		if kv[0] == "required" {
+		} else if kv[0] == "required" {
 			isRequired = true
-		}
-		if kv[0] == "default" && len(kv) >= 2 {
+		} else if kv[0] == "default" && len(kv) >= 2 {
 			defaultValue = kv[1]
+		} else {
+			// shoddy validation
+			panic(fmt.Sprintf("unknown format: %v", pair))
 		}
 	}
 
