@@ -112,11 +112,11 @@ func getPropertyOf(key string) (description string, isRequired bool, defaultValu
 	apidocTag := field.Tag.Get("apidoc")
 	for _, pair := range strings.Split(apidocTag, ",") {
 		kv := strings.Split(pair, "=")
-		if kv[0] == "description" && len(kv) >= 2 {
+		if kv[0] == "description" && len(kv) == 2 {
 			description = kv[1]
-		} else if kv[0] == "required" {
+		} else if kv[0] == "required" && len(kv) == 1 {
 			isRequired = true
-		} else if kv[0] == "default" && len(kv) >= 2 {
+		} else if kv[0] == "default" && len(kv) == 2 {
 			defaultValue = kv[1]
 		} else {
 			// shoddy validation

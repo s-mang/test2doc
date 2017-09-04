@@ -73,7 +73,7 @@ func parseForm(body []byte) []Attribute {
 			continue
 		}
 		kv := strings.Split(pair, "=")
-		if len(kv) <= 1 {
+		if len(kv) != 2 {
 			// shoddy validation
 			panic(fmt.Sprintf("invalid format: %v", pair))
 		}
