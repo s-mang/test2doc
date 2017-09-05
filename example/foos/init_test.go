@@ -3,9 +3,9 @@ package foos_test
 import (
 	"testing"
 
-	"github.com/adams-sarah/prettytest"
-	"github.com/adams-sarah/test2doc/example"
-	"github.com/adams-sarah/test2doc/test"
+	"github.com/everytv/prettytest"
+	"github.com/everytv/test2doc/example"
+	"github.com/everytv/test2doc/test"
 	"github.com/gorilla/mux"
 )
 

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"reflect"
 
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/everytv/test2doc/doc/parse"
 )
 
 type ParameterType int

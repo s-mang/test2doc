@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/adams-sarah/test2doc/example/foos"
+	"github.com/everytv/test2doc/example/foos"
 )
 
 func (t *mainSuite) TestGetFoos() {

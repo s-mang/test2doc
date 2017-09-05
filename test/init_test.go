@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/adams-sarah/prettytest"
+	"github.com/everytv/prettytest"
 )
 
 type suite struct{ prettytest.Suite }

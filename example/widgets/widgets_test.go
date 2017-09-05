@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/adams-sarah/test2doc/example/widgets"
+	"github.com/everytv/test2doc/example/widgets"
 )
 
 func (t *mainSuite) TestGetWidgets() {
