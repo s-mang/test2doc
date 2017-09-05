@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"regexp"
 	"text/template"
+	"strings"
+	"reflect"
+
+	"github.com/adams-sarah/test2doc/doc/parse"
 )
 
 type ParameterType int
@@ -21,7 +25,7 @@ const (
 
 var (
 	parameterTmpl *template.Template
-	parameterFmt  = `    + {{.Name}}: {{.Value.Quote}} ({{.Type.String}}){{with .Description}} - {{.}}{{end}}`
+	parameterFmt  = "    + {{.Name}}: {{.Value.Quote}} ({{.Type.String}}, {{with .IsRequired}}required{{else}}optional{{end}}){{with .Description}} - {{.}}{{end}}{{with .DefaultValue}}\n      + Default: {{.}}{{end}}"
 )
 
 func init() {
@@ -35,17 +39,19 @@ type Parameter struct {
 	Type        ParameterType
 	IsRequired  bool
 
-	// TODO:
-	// DefaultValue
+	DefaultValue string
 }
 
 func MakeParameter(key, val string) Parameter {
+	description, isRequired, defaultValue := getPropertyOf(key)
 	return Parameter{
 		Name:       key,
+		Description: description,
 		Value:      ParameterValue(val),
 		Type:       paramType(val),
-		IsRequired: true, // assume anything in route URL is required
+		IsRequired: isRequired, // assume anything in route URL is required
 		// query params are a different story
+		DefaultValue: defaultValue,
 	}
 }
 
@@ -81,6 +87,43 @@ func isBool(str string) bool {
 func isNumber(str string) bool {
 	re := regexp.MustCompile(numberRe)
 	return re.MatchString(str)
+}
+
+func getPropertyOf(key string) (description string, isRequired bool, defaultValue string) {
+	if parse.ParamsType == nil {
+		return
+	}
+
+	paramsType := *parse.ParamsType
+	var field *reflect.StructField
+	for i := 0; i < paramsType.NumField(); i++ {
+		jsonTag := paramsType.Field(i).Tag.Get("json")
+		if jsonTag == key {
+			wk := paramsType.Field(i)
+			field = &wk
+			break
+		}
+	}
+	if field == nil {
+		return
+	}
+
+	// `apidoc:"required,default=...,description=..."`
+	apidocTag := field.Tag.Get("apidoc")
+	for _, pair := range strings.Split(apidocTag, ",") {
+		kv := strings.Split(pair, "=")
+		if kv[0] == "description" && len(kv) >= 2 {
+			description = kv[1]
+		}
+		if kv[0] == "required" {
+			isRequired = true
+		}
+		if kv[0] == "default" && len(kv) >= 2 {
+			defaultValue = kv[1]
+		}
+	}
+
+	return
 }
 
 func (pt ParameterType) String() string {
