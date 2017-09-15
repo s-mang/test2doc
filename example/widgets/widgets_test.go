@@ -1,12 +1,10 @@
-package widgets_test
+package widgets
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"github.com/adams-sarah/test2doc/example/widgets"
 )
 
 func (t *mainSuite) TestGetWidgets() {
@@ -21,16 +19,16 @@ func (t *mainSuite) TestGetWidgets() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var ws []widgets.Widget
+	var ws []Widget
 	err = decoder.Decode(&ws)
 	t.Must(t.Nil(err))
 
-	t.Equal(len(ws), len(widgets.AllWidgets))
+	t.Equal(len(ws), len(AllWidgets))
 	t.Must(t.True(len(ws) > 2))
 
-	t.Equal(ws[0].Id, widgets.AllWidgets[0].Id)
-	t.Equal(ws[2].Name, widgets.AllWidgets[2].Name)
-	t.Equal(ws[1].Role, widgets.AllWidgets[1].Role)
+	t.Equal(ws[0].Id, AllWidgets[0].Id)
+	t.Equal(ws[2].Name, AllWidgets[2].Name)
+	t.Equal(ws[1].Role, AllWidgets[1].Role)
 }
 
 func (t *mainSuite) TestGetWidgetBadRequest() {
@@ -60,20 +58,20 @@ func (t *mainSuite) TestGetWidget() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var widget widgets.Widget
+	var widget Widget
 	err = decoder.Decode(&widget)
 	t.Must(t.Nil(err))
 
-	t.Equal(widget.Id, widgets.AllWidgets[2].Id)
-	t.Equal(widget.Name, widgets.AllWidgets[2].Name)
-	t.Equal(widget.Role, widgets.AllWidgets[2].Role)
+	t.Equal(widget.Id, AllWidgets[2].Id)
+	t.Equal(widget.Name, AllWidgets[2].Name)
+	t.Equal(widget.Role, AllWidgets[2].Role)
 }
 
 func (t *mainSuite) TestPostWidget() {
 	urlPath, err := router.Get("PostWidget").URL()
 	t.Must(t.Nil(err))
 
-	widget := widgets.Widget{
+	widget := Widget{
 		Name: "anotherwidget",
 		Role: "controller",
 	}
@@ -90,7 +88,7 @@ func (t *mainSuite) TestPostWidget() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var respWidget widgets.Widget
+	var respWidget Widget
 	err = decoder.Decode(&respWidget)
 	t.Must(t.Nil(err))
 

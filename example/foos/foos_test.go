@@ -1,10 +1,8 @@
-package foos_test
+package foos
 
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/adams-sarah/test2doc/example/foos"
 )
 
 func (t *mainSuite) TestGetFoos() {
@@ -19,13 +17,13 @@ func (t *mainSuite) TestGetFoos() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	fs := map[string]foos.Foo{}
+	fs := map[string]Foo{}
 	err = decoder.Decode(&fs)
 	t.Must(t.Nil(err))
 
-	t.Equal(len(fs), len(foos.AllFoos))
+	t.Equal(len(fs), len(AllFoos))
 
-	for k, foo := range foos.AllFoos {
+	for k, foo := range AllFoos {
 		t.Equal(fs[k].B, foo.B)
 		t.Equal(fs[k].A, foo.A)
 		t.Equal(fs[k].R, foo.R)
@@ -45,11 +43,11 @@ func (t *mainSuite) TestGetFoo() {
 	decoder := json.NewDecoder(resp.Body)
 	defer resp.Body.Close()
 
-	var foo foos.Foo
+	var foo Foo
 	err = decoder.Decode(&foo)
 	t.Must(t.Nil(err))
 
-	t.Equal(foo.B, foos.AllFoos[key].B)
-	t.Equal(foo.A, foos.AllFoos[key].A)
-	t.Equal(foo.R, foos.AllFoos[key].R)
+	t.Equal(foo.B, AllFoos[key].B)
+	t.Equal(foo.A, AllFoos[key].A)
+	t.Equal(foo.R, AllFoos[key].R)
 }

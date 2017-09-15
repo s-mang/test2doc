@@ -1,46 +1,10 @@
 
 # Group Widgets
 
-## /widgets/{id}
-
-+ Parameters
-    + id: `2` (number)
-
-### Get Widget [GET]
-retrieves a single Widget
-
-
-+ Response 200 (application/json)
-
-
-
-    + Body
-
-            {
-                "Id": 2,
-                "Name": "Pencil",
-                "Role": "Utensil"
-            }        
-
-
-
-+ Response 400 (text/plain; charset=utf-8)
-
-    + Headers
-            
-            X-Content-Type-Options: nosniff
-
-    + Body
-
-            strconv.ParseInt: parsing "hello": invalid syntax
-        
-
-
-
 ## /widgets
 
 ### Get Widgets [GET]
-retrieves the collection of Wisdget
+retrieves the collection of Widgets
 
 
 + Response 200 (application/json)
@@ -120,5 +84,44 @@ adds a Widget to the collection
                 "Name": "anotherwidget",
                 "Role": "controller"
             }        
+
+
+
+## /widgets/2
+
+### Get Widget [GET]
+retrieves a single Widget
+
+
++ Response 200 (application/json)
+
+
+
+    + Body
+
+            {
+                "Id": 2,
+                "Name": "Pencil",
+                "Role": "Utensil"
+            }        
+
+
+
+## /widgets/hello
+
+### Get Widget [GET]
+retrieves a single Widget
+
+
++ Response 400 (text/plain; charset=utf-8)
+
+    + Headers
+            
+            X-Content-Type-Options: nosniff
+
+    + Body
+
+            strconv.ParseInt: parsing "hello": invalid syntax
+        
 
 
