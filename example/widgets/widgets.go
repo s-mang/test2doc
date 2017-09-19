@@ -32,7 +32,14 @@ func init() {
 	}
 }
 
-// GetWidgets retrieves the collection of Wisdget
+// AddRoutes adds the Widgets API to the given router.
+func AddRoutes(r *mux.Router) {
+	r.HandleFunc("/widgets", GetWidgets).Methods("GET").Name("GetWidgets")
+	r.HandleFunc("/widgets", PostWidget).Methods("POST").Name("PostWidget")
+	r.HandleFunc("/widgets/{id}", GetWidget).Methods("GET").Name("GetWidget")
+}
+
+// GetWidgets retrieves the collection of Widgets
 func GetWidgets(w http.ResponseWriter, req *http.Request) {
 	widgetsJSON, err := json.Marshal(AllWidgets)
 	if err != nil {

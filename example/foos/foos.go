@@ -27,6 +27,12 @@ func init() {
 	}
 }
 
+// AddRoutes adds the Foo API to the given router.
+func AddRoutes(r *mux.Router) {
+	r.HandleFunc("/foos", GetFoos).Methods("GET").Name("GetFoos")
+	r.HandleFunc("/foos/{key}", GetFoo).Methods("GET").Name("GetFoo")
+}
+
 // GetFoos retrieves the collection of Foos
 func GetFoos(w http.ResponseWriter, req *http.Request) {
 	foosJSON, err := json.Marshal(AllFoos)

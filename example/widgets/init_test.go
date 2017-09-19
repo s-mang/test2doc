@@ -1,10 +1,9 @@
-package widgets_test
+package widgets
 
 import (
 	"testing"
 
 	"github.com/adams-sarah/prettytest"
-	"github.com/adams-sarah/test2doc/example"
 	"github.com/adams-sarah/test2doc/test"
 	"github.com/gorilla/mux"
 )
@@ -19,7 +18,8 @@ type mainSuite struct {
 func TestRunner(t *testing.T) {
 	var err error
 
-	router = example.NewRouter()
+	router = mux.NewRouter()
+	AddRoutes(router)
 	router.KeepContext = true
 
 	test.RegisterURLVarExtractor(mux.Vars)
