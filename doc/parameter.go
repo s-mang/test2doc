@@ -2,10 +2,10 @@ package doc
 
 import (
 	"fmt"
-	"regexp"
-	"text/template"
-	"strings"
 	"reflect"
+	"regexp"
+	"strings"
+	"text/template"
 
 	"github.com/everytv/test2doc/doc/parse"
 )
@@ -45,11 +45,11 @@ type Parameter struct {
 func MakeParameter(key, val string) Parameter {
 	description, isRequired, defaultValue := getPropertyOf(key)
 	return Parameter{
-		Name:       key,
+		Name:        key,
 		Description: description,
-		Value:      ParameterValue(val),
-		Type:       paramType(val),
-		IsRequired: isRequired, // assume anything in route URL is required
+		Value:       ParameterValue(val),
+		Type:        paramType(val),
+		IsRequired:  isRequired, // assume anything in route URL is required
 		// query params are a different story
 		DefaultValue: defaultValue,
 	}
@@ -111,6 +111,9 @@ func getPropertyOf(key string) (description string, isRequired bool, defaultValu
 	// `apidoc:"required,default=...,description=..."`
 	apidocTag := field.Tag.Get("apidoc")
 	for _, pair := range strings.Split(apidocTag, ",") {
+		if len(pair) == 0 {
+			continue
+		}
 		kv := strings.Split(pair, "=")
 		if kv[0] == "description" && len(kv) == 2 {
 			description = kv[1]
