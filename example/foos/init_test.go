@@ -5,6 +5,7 @@ import (
 
 	"github.com/adams-sarah/prettytest"
 	"github.com/adams-sarah/test2doc/test"
+	"github.com/adams-sarah/test2doc/vars"
 	"github.com/gorilla/mux"
 )
 
@@ -20,9 +21,7 @@ func TestRunner(t *testing.T) {
 
 	router = mux.NewRouter()
 	AddRoutes(router)
-	router.KeepContext = true
-
-	test.RegisterURLVarExtractor(mux.Vars)
+	test.RegisterURLVarExtractor(vars.MakeGorillaMuxExtractor(router))
 
 	server, err = test.NewServer(router)
 	if err != nil {

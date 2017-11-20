@@ -147,46 +147,21 @@ func TestMain(m *testing.M) {
 `gorilla/mux` configurations
 
 ```go
-	// NOTE: if you are using gorilla/mux, you must set the router's 
-	//  'KeepContext' to true, so that url parameters can be accessed
-	//  after the request has been handled.
-	router := NewRouter()
-	router.KeepContext = true
+	import "github.com/adams-sarah/test2doc/vars"
+	// ...
 	
-	// Use mux.Vars func as URLVarExtractor
-	test.RegisterURLVarExtractor(mux.Vars)
+	extractor := vars.MakeGorillaMuxExtractor(myGorillaRouter)
+	test.RegisterURLVarExtractor(extractor)
 ```
 
 `julienschmidt/httprouter` configurations
 
 ```go
-// MakeURLVarExtractor returns a func which extracts 
-// url vars from a request for test2doc documentation generation
-func MakeURLVarExtractor(router *httprouter.Router) parse.URLVarExtractor {
-	return func(req *http.Request) map[string]string {
-		// httprouter Lookup func needs a trailing slash on path
-		path := req.URL.Path
-		if !strings.HasSuffix(path, "/") {
-			path += "/"
-		}
+	import "github.com/adams-sarah/test2doc/vars"
+	// ...
 
-		_, params, ok := router.Lookup(req.Method, path)
-		if !ok {
-			return nil
-		}
-
-		paramsMap := make(map[string]string, len(params))
-		for _, p := range params {
-			paramsMap[p.Key] = p.Value
-		}
-
-		return paramsMap
-	}
-}
-
-// and then..
-test.RegisterURLVarExtractor(MakeURLVarExtractor(router))
-
+	extractor := vars.MakeHTTPRouterExtractor(myHTTPRouter)
+	test.RegisterURLVarExtractor(extractor)
 ```
 
 #### 2. Combine the output `.apib` files
