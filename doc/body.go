@@ -41,6 +41,9 @@ func (b *Body) FormattedStr() string {
 	if strings.HasPrefix(b.ContentType, "application/json") {
 		return b.FormattedJSON()
 	}
+	if strings.HasPrefix(b.ContentType, "multipart/form-data") {
+		return b.FormattedMultipartFormData()
+	}
 	return string(b.Content)
 }
 
@@ -51,4 +54,8 @@ func (b *Body) FormattedJSON() string {
 	}
 
 	return fbody
+}
+
+func (b *Body) FormattedMultipartFormData() string {
+	return strings.TrimRight(strings.Replace(string(b.Content), "\n", "\n            ", -1), " ")
 }
