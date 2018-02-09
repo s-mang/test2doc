@@ -2,10 +2,15 @@ package doc
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
 	"strings"
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"text/template"
+	"mime"
+	"mime/multipart"
 )
 
 var (
@@ -55,10 +60,17 @@ func NewRequest(req *http.Request) (*Request, error) {
 }
 
 func getAttributesOf(contentType string, body []byte) []Attribute {
+	mediaType, params, err := mime.ParseMediaType(contentType)
+	if err != nil {
+		panic(err)
+	}
+
 	var attrs []Attribute
-	switch contentType {
+	switch mediaType {
 	case "application/x-www-form-urlencoded":
 		attrs = parseForm(body)
+	case "multipart/form-data":
+		attrs = parseMultipartForm(params["boundary"], body)
 	case "application/json":
 		attrs = parseJSON(body)
 	}
@@ -79,6 +91,31 @@ func parseForm(body []byte) []Attribute {
 		}
 		key, val := kv[0], kv[1]
 
+		attr := attributeOf(key, val)
+		attrs = append(attrs, attr)
+	}
+	return attrs
+}
+
+func parseMultipartForm(boundary string, body []byte) []Attribute {
+	r := bytes.NewReader(body)
+	reader := multipart.NewReader(r, boundary)
+
+	var attrs []Attribute
+	for {
+		part, err := reader.NextPart()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+
+		key := part.FormName()
+		val, err := ioutil.ReadAll(part)
+		if err != nil {
+			panic(err)
+		}
 		attr := attributeOf(key, val)
 		attrs = append(attrs, attr)
 	}
