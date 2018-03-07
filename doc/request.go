@@ -1,16 +1,16 @@
 package doc
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
-	"strings"
-	"bytes"
-	"encoding/json"
-	"net/http"
-	"text/template"
 	"mime"
 	"mime/multipart"
+	"net/http"
+	"strings"
+	"text/template"
 )
 
 var (
@@ -52,20 +52,25 @@ func NewRequest(req *http.Request) (*Request, error) {
 	contentType := req.Header.Get("Content-Type")
 
 	return &Request{
-		Header: NewHeader(req.Header),
-		Body:   NewBody(b2bytes, contentType),
-		Method: req.Method,
+		Header:     NewHeader(req.Header),
+		Body:       NewBody(b2bytes, contentType),
+		Method:     req.Method,
 		Attributes: getAttributesOf(contentType, b2bytes),
 	}, nil
 }
 
 func getAttributesOf(contentType string, body []byte) []Attribute {
+	var attrs []Attribute
+
+	if len(contentType) == 0 {
+		return attrs
+	}
+
 	mediaType, params, err := mime.ParseMediaType(contentType)
 	if err != nil {
 		panic(err)
 	}
 
-	var attrs []Attribute
 	switch mediaType {
 	case "application/x-www-form-urlencoded":
 		attrs = parseForm(body)
@@ -126,11 +131,11 @@ func attributeOf(key string, val interface{}) Attribute {
 	s := fmt.Sprintf("%s", val)
 	description, isRequired, defaultValue := getPropertyOf(key)
 	return Attribute{
-		Name: key,
-		Description: description,
-		Value: ParameterValue(s),
-		Type:  paramType(s),
-		IsRequired: isRequired,
+		Name:         key,
+		Description:  description,
+		Value:        ParameterValue(s),
+		Type:         paramType(s),
+		IsRequired:   isRequired,
 		DefaultValue: defaultValue,
 	}
 }
