@@ -2,7 +2,6 @@ package doc
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -76,8 +75,6 @@ func getAttributesOf(contentType string, body []byte) []Attribute {
 		attrs = parseForm(body)
 	case "multipart/form-data":
 		attrs = parseMultipartForm(params["boundary"], body)
-	case "application/json":
-		attrs = parseJSON(body)
 	}
 	return attrs
 }
@@ -138,21 +135,6 @@ func attributeOf(key string, val interface{}) Attribute {
 		IsRequired:   isRequired,
 		DefaultValue: defaultValue,
 	}
-}
-
-func parseJSON(body []byte) (attrs []Attribute) {
-	var obj interface{}
-	err := json.Unmarshal(body, &obj)
-	if err != nil {
-		return
-	}
-
-	m := obj.(map[string]interface{})
-	for key, val := range m {
-		attr := attributeOf(key, val)
-		attrs = append(attrs, attr)
-	}
-	return
 }
 
 func (r *Request) Render() string {
