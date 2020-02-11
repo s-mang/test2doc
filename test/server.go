@@ -13,9 +13,27 @@ import (
 // resources = map[uri]Resource
 var resources = map[string]*doc.Resource{}
 
+type resourceSorter func(map[string]*doc.Resource) []*doc.Resource
+
 type Server struct {
 	*httptest.Server
-	doc *doc.Doc
+	doc    *doc.Doc
+	sortFn resourceSorter
+}
+
+func defaultSorter(resourceMap map[string]*doc.Resource) []*doc.Resource {
+	// sort resources by path
+	var uris []string
+	for k := range resourceMap {
+		uris = append(uris, k)
+	}
+	sort.Strings(uris)
+
+	sortedResources := make([]*doc.Resource, len(uris))
+	for i, uri := range uris {
+		sortedResources[i] = resources[uri]
+	}
+	return sortedResources
 }
 
 // TODO: filter out 404 responses
@@ -35,24 +53,22 @@ func NewServer(handler http.Handler) (s *Server, err error) {
 	return &Server{
 		httptestServer,
 		outDoc,
+		defaultSorter,
 	}, nil
+}
+
+func (s *Server) SetResourceSorter(sortFunc resourceSorter) {
+	s.sortFn = sortFunc
 }
 
 func (s *Server) Finish() {
 	s.Close()
 
-	// sort resources by path
-	var uris []string
-	for k := range resources {
-		uris = append(uris, k)
-	}
-	sort.Strings(uris)
-	for _, uri := range uris {
-		s.doc.AddResource(resources[uri])
+	for _, resource := range s.sortFn(resources) {
+		s.doc.AddResource(resource)
 	}
 
-	err := s.doc.Write()
-	if err != nil {
+	if err := s.doc.Write(); err != nil {
 		panic(err.Error())
 	}
 }

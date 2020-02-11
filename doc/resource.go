@@ -1,6 +1,9 @@
 package doc
 
-import "text/template"
+import (
+	"text/template"
+	"time"
+)
 
 var (
 	resourceTmpl *template.Template
@@ -20,6 +23,7 @@ func init() {
 type HTTPMethod string
 
 type Resource struct {
+	CreatedAt   time.Time
 	Title       string
 	Description string
 	//Model       *Model
@@ -32,7 +36,9 @@ type Resource struct {
 
 // NewResource returns a new Resource object
 func NewResource(u *URL) *Resource {
-	resource := &Resource{}
+	resource := &Resource{
+		CreatedAt: time.Now(),
+	}
 	resource.Actions = map[HTTPMethod]*Action{}
 	resource.URL = u
 	return resource
