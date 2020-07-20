@@ -9,7 +9,7 @@ const camelCase = "[A-Z]?[^A-Z]*"
 
 // GetTitle extracts a title from the function name,
 // where longFnName is of the form:
-// github.com/adams-sarah/test2doc/example.GetWidget
+// github.com/happyreturns/test2doc/example.GetWidget
 // and the out title would be:
 // Handle Get Widget
 func GetTitle(longFnName string) string {
@@ -46,7 +46,7 @@ func IsFuncInPkg(longFnName string) bool {
 
 // getShortFnName returns the name of the function, given
 // longFnName of the form:
-// github.com/adams-sarah/test2doc/example.GetWidget
+// github.com/happyreturns/test2doc/example.GetWidget
 func getShortFnName(longFnName string) string {
 	splitName := strings.Split(longFnName, ".")
 	return splitName[len(splitName)-1]

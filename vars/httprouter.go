@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/happyreturns/test2doc/doc/parse"
 	"github.com/julienschmidt/httprouter"
 )
 

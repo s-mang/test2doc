@@ -88,7 +88,7 @@ retrieves a single Widget
 
 ### Installation
 
-`go get github.com/adams-sarah/test2doc/...`
+`go get github.com/happyreturns/test2doc/...`
 
 <br>
 
@@ -103,7 +103,7 @@ Very few additions, and only to your testing code.
 ```go
 
 import (
-	"github.com/adams-sarah/test2doc/test"
+	"github.com/happyreturns/test2doc/test"
 )
 
 var server *test.Server
@@ -147,7 +147,7 @@ func TestMain(m *testing.M) {
 `gorilla/mux` configurations
 
 ```go
-	import "github.com/adams-sarah/test2doc/vars"
+	import "github.com/happyreturns/test2doc/vars"
 	// ...
 	
 	extractor := vars.MakeGorillaMuxExtractor(myGorillaRouter)
@@ -157,7 +157,7 @@ func TestMain(m *testing.M) {
 `julienschmidt/httprouter` configurations
 
 ```go
-	import "github.com/adams-sarah/test2doc/vars"
+	import "github.com/happyreturns/test2doc/vars"
 	// ...
 
 	extractor := vars.MakeHTTPRouterExtractor(myHTTPRouter)

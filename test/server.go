@@ -6,19 +6,19 @@ import (
 	"net/http/httptest"
 	"sort"
 
-	"github.com/adams-sarah/test2doc/doc"
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/happyreturns/test2doc/doc"
+	"github.com/happyreturns/test2doc/doc/parse"
 )
 
 // resources = map[uri]Resource
 var resources = map[string]*doc.Resource{}
 
-type resourceSorter func(map[string]*doc.Resource) []*doc.Resource
+type ResourceSorter func(map[string]*doc.Resource) []*doc.Resource
 
 type Server struct {
 	*httptest.Server
 	doc    *doc.Doc
-	sortFn resourceSorter
+	sortFn ResourceSorter
 }
 
 func defaultSorter(resourceMap map[string]*doc.Resource) []*doc.Resource {
@@ -57,7 +57,7 @@ func NewServer(handler http.Handler) (s *Server, err error) {
 	}, nil
 }
 
-func (s *Server) SetResourceSorter(sortFunc resourceSorter) {
+func (s *Server) SetResourceSorter(sortFunc ResourceSorter) {
 	s.sortFn = sortFunc
 }
 

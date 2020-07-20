@@ -3,8 +3,8 @@ package vars
 import (
 	"net/http"
 
-	"github.com/adams-sarah/test2doc/doc/parse"
 	"github.com/gorilla/mux"
+	"github.com/happyreturns/test2doc/doc/parse"
 )
 
 func MakeGorillaMuxExtractor(router *mux.Router) parse.URLVarExtractor {

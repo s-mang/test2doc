@@ -11,7 +11,7 @@ build:
         name: go get
         code: |
           go get ./...
-          go get github.com/adams-sarah/prettytest
+          go get github.com/happyreturns/prettytest
 
     - script:
         name: go test
