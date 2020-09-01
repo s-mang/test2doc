@@ -9,7 +9,7 @@ var (
 	bodyTmpl *template.Template
 	bodyFmt  = `    + Body
 
-            {{.FormattedStr}}        
+            {{.FormattedStr}}
 `
 )
 
@@ -44,7 +44,7 @@ func (b *Body) FormattedStr() string {
 	if strings.HasPrefix(b.ContentType, "multipart/form-data") {
 		return b.FormattedMultipartFormData()
 	}
-	return string(b.Content)
+	return strings.Replace(string(b.Content), "\r", "", -1)
 }
 
 func (b *Body) FormattedJSON() string {
@@ -57,5 +57,5 @@ func (b *Body) FormattedJSON() string {
 }
 
 func (b *Body) FormattedMultipartFormData() string {
-	return strings.TrimRight(strings.Replace(string(b.Content), "\n", "\n            ", -1), " ")
+	return strings.TrimRight(strings.Replace(strings.Replace(string(b.Content), "\r", "", -1), "\n", "\n            ", -1), " ")
 }
