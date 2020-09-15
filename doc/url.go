@@ -41,6 +41,7 @@ func paramPath(req *http.Request) (string, []Parameter) {
 	queryParams := req.URL.Query()
 
 	for k, vs := range queryParams {
+		k = url.QueryEscape(k)
 		queryKeys = append(queryKeys, k)
 
 		// just take first value
