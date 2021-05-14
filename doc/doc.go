@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
 
@@ -58,9 +59,35 @@ func NewDoc(pkgDir string) (doc *Doc, err error) {
 	return
 }
 
+type byResp []*Request
+
+func (rs byResp) Len() int {
+	return len(rs)
+}
+func (rs byResp) Swap(i, j int) {
+	rs[i], rs[j] = rs[j], rs[i]
+}
+func (rs byResp) Less(i, j int) bool {
+	if rs[i].Response.StatusCode != rs[j].Response.StatusCode {
+		return rs[i].Response.StatusCode < rs[j].Response.StatusCode
+	}
+	var bodyIContentLen, bodyJContentLen int
+	if rs[i].Response.Body != nil {
+		bodyIContentLen = len(rs[i].Response.Body.Content)
+	}
+	if rs[j].Response.Body != nil {
+		bodyIContentLen = len(rs[j].Response.Body.Content)
+	}
+	return bodyIContentLen > bodyJContentLen
+}
+
 // TODO: add Resource to appropriate ResourceGroup,
 //  not just to ResourceGroups[0]
 func (d *Doc) AddResource(resource *Resource) {
+	// sort requests by response status code and body len
+	for method, _ := range resource.Actions {
+		sort.Sort(byResp(resource.Actions[method].Requests))
+	}
 	d.Group.Resources = append(d.Group.Resources, *resource)
 }
 

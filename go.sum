@@ -1,0 +1,6 @@
+github.com/adams-sarah/prettytest v0.0.0-20150503061827-2880862ae7f5 h1:Asp4eRWQ0c1fqnY5+sTndqAjp/LCsmOy8wozEJLaNQs=
+github.com/adams-sarah/prettytest v0.0.0-20150503061827-2880862ae7f5/go.mod h1:p2ev/QMGYqQo5byMwvkLP4vnZdCJYlFHwhmCII3aj3E=
+github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
+github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
