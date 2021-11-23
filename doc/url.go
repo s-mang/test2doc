@@ -3,6 +3,7 @@ package doc
 import (
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 
 	"github.com/adams-sarah/test2doc/doc/parse"
@@ -40,11 +41,14 @@ func paramPath(req *http.Request) (string, []Parameter) {
 	var queryKeys []string
 	queryParams := req.URL.Query()
 
-	for k, vs := range queryParams {
+	for k := range queryParams {
 		queryKeys = append(queryKeys, k)
+	}
+	sort.Strings(queryKeys)
 
+	for _, k := range queryKeys {
 		// just take first value
-		params = append(params, MakeParameter(k, vs[0]))
+		params = append(params, MakeParameter(k, queryParams.Get(k)))
 	}
 
 	var queryKeysStr string
