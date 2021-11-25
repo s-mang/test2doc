@@ -44,10 +44,36 @@ func IsFuncInPkg(longFnName string) bool {
 	return doc != nil
 }
 
-// getShortFnName returns the name of the function, given
-// longFnName of the form:
-// github.com/adams-sarah/test2doc/example.GetWidget
+// getShortFnName returns the name of the function
+// without the package name so:
+//   github.com/user/project/package.method
+// becomes
+//   method
+// and
+//   github.com/user/project/package.(*type).method
+// becomes
+//   type.method
 func getShortFnName(longFnName string) string {
-	splitName := strings.Split(longFnName, ".")
-	return splitName[len(splitName)-1]
+
+	// drop anything before the last '/'
+	slashed := strings.Split(longFnName, "/")
+	last := slashed[len(slashed)-1]
+
+	// split the final part by period
+	dotted := strings.Split(last, ".")
+
+	// drop the first part which is the package name
+	dotted = dotted[1:]
+
+	// loop over and drop pointer references (*v) => v
+	for i, p := range dotted {
+		if len(p) > 3 {
+			if p[0:2] == "(*" && p[len(p)-1] == ')' {
+				p = p[2 : len(p)-1]
+			}
+		}
+		dotted[i] = p
+	}
+
+	return strings.Join(dotted, ".")
 }
