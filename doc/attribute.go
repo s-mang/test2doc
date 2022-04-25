@@ -6,7 +6,10 @@ import (
 
 var (
 	attributeTmpl *template.Template
-	attributeFmt  = "        + {{.Name}}: {{.Value.Quote}} ({{.Type.String}}, {{with .IsRequired}}required{{else}}optional{{end}}){{with .Description}} - {{.}}{{end}}{{with .DefaultValue}}\n            + Default: {{.}}{{end}}"
+	attributeFmt  = `
++ {{.Name}}{{with .IsObject}}{{else}}:{{end}} {{.Value.Quote}} ({{with .IsObject}}hogeType{{else}}{{.Type.String}}{{end}}, {{with .IsRequired}}required{{else}}optional{{end}}){{with .Description}} - {{.}}{{end}}{{with .DefaultValue}}
++ Default: {{.}}{{end}}
+`
 )
 
 func init() {

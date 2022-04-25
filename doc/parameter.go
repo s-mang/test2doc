@@ -40,6 +40,7 @@ type Parameter struct {
 	IsRequired  bool
 
 	DefaultValue string
+	IsObject bool
 }
 
 func MakeParameter(key, val string) Parameter {
