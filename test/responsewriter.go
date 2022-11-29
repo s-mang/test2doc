@@ -51,7 +51,6 @@ func (rw *ResponseWriter) setHandlerInfo() {
 	for i < max {
 		pc, file, _, ok = runtime.Caller(i)
 		if !ok {
-			log.Println("test2doc: setHandlerInfo: !ok")
 			return
 		}
 
