@@ -1,7 +1,6 @@
 package test
 
 import (
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"runtime"
