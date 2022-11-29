@@ -1,11 +1,13 @@
 package test
 
+import "testing"
+
 // TODO
-func (t *suite) TestNewTestServer() {
+func TestNewTestServer(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestNewTestServer_outDirDNE() {
+func TestNewTestServer_outDirDNE(t *testing.T) {
 
 }

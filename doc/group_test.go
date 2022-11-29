@@ -1,16 +1,18 @@
 package doc
 
+import "testing"
+
 // TODO
-func (t *suite) TestRenderResourceGroup() {
+func TestRenderResourceGroup(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderResourceGroup_ResourceGroupIsNil() {
+func TestRenderResourceGroup_ResourceGroupIsNil(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderResourceGroup_NoResources() {
+func TestRenderResourceGroup_NoResources(t *testing.T) {
 
 }

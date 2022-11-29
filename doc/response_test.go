@@ -5,34 +5,43 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
 var testResponseBody = `{"foo": "bar"}`
 
-func (t *suite) TestNewResponse_ResponseBodyIsCorrectlyCopied() {
+func TestNewResponse_ResponseBodyIsCorrectlyCopied(t *testing.T) {
 	body := bytes.NewBuffer([]byte(testRequestBody))
 	req, err := http.NewRequest("POST", "http://httpbin.org/post", body)
-	t.Must(t.Nil(err))
+	if err != nil {
+		t.Fatalf("expected 'err' (%v) be nil", err)
+	}
 
 	w := httptest.NewRecorder()
 	testResponseHandler(w, req)
 
 	apiResp := NewResponse(w)
 
-	t.Equal(string(apiResp.Body.Content), testResponseBody)
+	if string(apiResp.Body.Content) != testResponseBody {
+		t.Fatalf("expected 'string(apiResp.Body.Content)' (%v) to equal 'testResponseBody' (%v)", string(apiResp.Body.Content), testResponseBody)
+	}
 }
 
-func (t *suite) TestNewResponse_OriginalResponseBodyDoesNotChange() {
+func TestNewResponse_OriginalResponseBodyDoesNotChange(t *testing.T) {
 	body := bytes.NewBuffer([]byte(testRequestBody))
 	req, err := http.NewRequest("POST", "http://httpbin.org/post", body)
-	t.Must(t.Nil(err))
+	if err != nil {
+		t.Fatalf("expected 'err' (%v) be nil", err)
+	}
 
 	w := httptest.NewRecorder()
 	testResponseHandler(w, req)
 
 	_ = NewResponse(w)
 
-	t.Equal(w.Body.String(), testRequestBody)
+	if w.Body.String() != testRequestBody {
+		t.Fatalf("expected 'w.Body.String()' (%v) to equal 'testRequestBody' (%v)", w.Body.String(), testRequestBody)
+	}
 }
 
 func testResponseHandler(w http.ResponseWriter, req *http.Request) {

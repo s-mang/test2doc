@@ -1,16 +1,18 @@
 package doc
 
+import "testing"
+
 // TODO
-func (t *suite) TestParameterizedPathForURL() {
+func TestParameterizedPathForURL(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestParameterizedPathForURL_NoParameters() {
+func TestParameterizedPathForURL_NoParameters(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestParameterizedPathForURL_URLIsNil() {
+func TestParameterizedPathForURL_URLIsNil(t *testing.T) {
 
 }

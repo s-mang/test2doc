@@ -1,11 +1,13 @@
 package doc
 
+import "testing"
+
 // TODO
-func (t *suite) TestRenderAction() {
+func TestRenderAction(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderAction_NoRequestOrResponse() {
+func TestRenderAction_NoRequestOrResponse(t *testing.T) {
 
 }

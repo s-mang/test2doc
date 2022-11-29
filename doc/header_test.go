@@ -1,33 +1,42 @@
 package doc
 
-import "net/http"
+import (
+	"net/http"
+	"testing"
+)
 
-func (t *suite) TestRenderHeader() {
+func TestRenderHeader(t *testing.T) {
 
 }
 
-func (t *suite) TestRenderHeader_HeaderIsNil() {
+func TestRenderHeader_HeaderIsNil(t *testing.T) {
 
 }
 
-func (t *suite) TestContentType_OneContentType() {
+func TestContentType_OneContentType(t *testing.T) {
 	ct := "text/plain"
 
 	h := http.Header{}
 	h.Add("Content-Type", ct)
-	t.Equal(NewHeader(h).ContentType, ct)
+	if NewHeader(h).ContentType != ct {
+		t.Fatalf("expected 'NewHeader(h).ContentType' (%v) to equal 'ct' (%v)", NewHeader(h).ContentType, ct)
+	}
 }
 
-func (t *suite) TestContentType_MultipleContentTypes_Mistakenly() {
+func TestContentType_MultipleContentTypes_Mistakenly(t *testing.T) {
 	ct := "text/plain"
 
 	h := http.Header{}
 	h.Add("Content-Type", ct)
 	h.Add("Content-Type", "application/json")
-	t.Equal(NewHeader(h).ContentType, ct)
+	if NewHeader(h).ContentType != ct {
+		t.Fatalf("expected 'NewHeader(h).ContentType' (%v) to equal 'ct' (%v)", NewHeader(h).ContentType, ct)
+	}
 }
 
-func (t *suite) TestNewHeader_EmptyHeader() {
+func TestNewHeader_EmptyHeader(t *testing.T) {
 	h := http.Header{}
-	t.Nil(NewHeader(h))
+	if NewHeader(h) != nil {
+		t.Fatalf("expected 'NewHeader(h)' (%v) be nil", NewHeader(h))
+	}
 }

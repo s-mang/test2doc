@@ -1,21 +1,23 @@
 package doc
 
+import "testing"
+
 // TODO
-func (t *suite) TestRenderResource() {
+func TestRenderResource(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderResource_ResourceIsNil() {
+func TestRenderResource_ResourceIsNil(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderResource_NoActions() {
+func TestRenderResource_NoActions(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderResource_URLIsNil() {
+func TestRenderResource_URLIsNil(t *testing.T) {
 
 }

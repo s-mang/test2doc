@@ -1,11 +1,13 @@
 package doc
 
+import "testing"
+
 // TODO
-func (t *suite) TestRenderBody() {
+func TestRenderBody(t *testing.T) {
 
 }
 
 // TODO
-func (t *suite) TestRenderBody_BodyIsNil() {
+func TestRenderBody_BodyIsNil(t *testing.T) {
 
 }

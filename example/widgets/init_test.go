@@ -1,10 +1,10 @@
 package widgets
 
 import (
+	"os"
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/s-mang/prettytest"
 	"github.com/s-mang/test2doc/test"
 	"github.com/s-mang/test2doc/vars"
 )
@@ -12,11 +12,7 @@ import (
 var router *mux.Router
 var server *test.Server
 
-type mainSuite struct {
-	prettytest.Suite
-}
-
-func TestRunner(t *testing.T) {
+func TestMain(m *testing.M) {
 	var err error
 
 	router = mux.NewRouter()
@@ -28,11 +24,7 @@ func TestRunner(t *testing.T) {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer server.Finish()
-
-	prettytest.RunWithFormatter(
-		t,
-		new(prettytest.TDDFormatter),
-		new(mainSuite),
-	)
+	code := m.Run()
+	server.Finish()
+	os.Exit(code)
 }
