@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/adams-sarah/test2doc/doc/parse"
 	"github.com/julienschmidt/httprouter"
+	"github.com/s-mang/test2doc/doc/parse"
 )
 
 func MakeHTTPRouterExtractor(router *httprouter.Router) parse.URLVarExtractor {

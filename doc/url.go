@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/adams-sarah/test2doc/doc/parse"
+	"github.com/s-mang/test2doc/doc/parse"
 )
 
 type URL struct {

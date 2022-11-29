@@ -3,7 +3,7 @@ package doc
 import (
 	"testing"
 
-	"github.com/adams-sarah/prettytest"
+	"github.com/s-mang/prettytest"
 )
 
 type suite struct{ prettytest.Suite }
