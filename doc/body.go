@@ -83,5 +83,6 @@ func (b *Body) SanitizedMultipartForm() string {
 		}
 	}
 
-	return string(bytes.Join(parts, []byte(boundary)))
+	out := string(bytes.Join(parts, []byte(boundary)))
+	return strings.Replace(out, "\n", "\n            ", -1)
 }

@@ -35,6 +35,9 @@ func cloneBody(r io.ReadCloser) (*bytes.Buffer, *bytes.Buffer, error) {
 func CopyHeader(dst, src http.Header) {
 	for k, vv := range src {
 		for _, v := range vv {
+			if v == "" {
+				v = "''" // to make the apiary doc valid
+			}
 			dst.Add(k, v)
 		}
 	}
