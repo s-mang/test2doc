@@ -1,6 +1,7 @@
 package doc
 
 import (
+	"bytes"
 	"regexp"
 	"strings"
 	"text/template"
@@ -14,8 +15,8 @@ var (
 `
 )
 
-var multipartBoundaryREStr = "^([-]+[a-zA-Z0-9]+)\nContent-Disposition.*"
-var multipartFileREStr = "(Content-Disposition: .*filename=.*\n?(?:Content-Type: .*))\n\n"
+var multipartBoundaryREStr = "multipart/form-data; boundary=([-]*[a-zA-Z0-9]+)"
+var multipartFileREStr = "(Content-Disposition: .*filename=.*\n?(?:Content-Type: .*)?)"
 
 var multipartBoundaryRE, multipartFileRE *regexp.Regexp
 
@@ -66,21 +67,21 @@ func (b *Body) FormattedJSON() string {
 }
 
 func (b *Body) SanitizedMultipartForm() string {
-	bodyStr := string(b.Content)
-	matches := multipartBoundaryRE.FindStringSubmatch(bodyStr)
+	matches := multipartBoundaryRE.FindStringSubmatch(b.ContentType)
 	if len(matches) < 2 {
 		// Fail, just return full body
 		return string(b.Content)
 	}
 	boundary := matches[1]
-	parts := strings.Split(bodyStr, boundary+"\n")
+	parts := bytes.Split(b.Content, []byte(boundary))
 
 	for i, p := range parts {
-		fileMatches := multipartFileRE.FindStringSubmatch(p)
+		fileMatches := multipartFileRE.FindSubmatch(p)
 		if len(fileMatches) > 0 {
-			parts[i] = fileMatches[0] + "<FILE DATA>\n\n"
+			parts[i] = append([]byte("\n"), fileMatches[0]...)
+			parts[i] = append(parts[i], []byte("\n\n<FILE DATA>\n\n")...)
 		}
 	}
 
-	return strings.Join(parts, boundary+"\n") + boundary + "--"
+	return string(bytes.Join(parts, []byte(boundary)))
 }
