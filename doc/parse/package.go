@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"os"
 	"regexp"
+	"strings"
 )
 
 var (
@@ -33,6 +34,9 @@ func NewPackageDoc(dir string) (*doc.Package, error) {
 func setDocFuncsMap(pkgDoc *doc.Package) {
 	funcsMap = make(map[string]*doc.Func, len(pkgDoc.Funcs))
 	for _, fn := range pkgDoc.Funcs {
+		// replace any \t character in comment with spaces
+		// because apiary parser cannot handle tabs
+		fn.Doc = strings.Replace(fn.Doc, "\t", "    ", -1)
 		funcsMap[fn.Name] = fn
 	}
 }
