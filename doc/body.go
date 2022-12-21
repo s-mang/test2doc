@@ -73,7 +73,7 @@ func (b *Body) SanitizedMultipartForm() string {
 		return string(b.Content)
 	}
 	boundary := matches[1]
-	parts := bytes.Split(b.Content, []byte(boundary))
+	parts := bytes.Split(b.Content, []byte("--"+boundary))
 
 	for i, p := range parts {
 		fileMatches := multipartFileRE.FindSubmatch(p)
@@ -83,6 +83,6 @@ func (b *Body) SanitizedMultipartForm() string {
 		}
 	}
 
-	out := string(bytes.Join(parts, []byte(boundary)))
+	out := string(bytes.Join(parts, []byte("--"+boundary)))
 	return strings.Replace(out, "\n", "\n            ", -1)
 }
