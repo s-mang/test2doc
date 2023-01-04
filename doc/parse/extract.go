@@ -48,6 +48,6 @@ func IsFuncInPkg(longFnName string) bool {
 // longFnName of the form:
 // github.com/adams-sarah/test2doc/example.GetWidget
 func getShortFnName(longFnName string) string {
-	splitName := strings.Split(longFnName, ".")
+	splitName := strings.Split(strings.Replace(longFnName, ").", ")", -1), ".")
 	return splitName[len(splitName)-1]
 }
