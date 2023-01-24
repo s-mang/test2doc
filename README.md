@@ -36,7 +36,7 @@ Test2doc will generate markdown documentation for this endpoint in the [API Blue
 ## /widgets/{id}
 
 + Parameters
-    + id: `2` (number)
+    + `id`: `2` (number)
 
 ### Get Widget [GET]
 retrieves a single Widget
