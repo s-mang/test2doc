@@ -35,6 +35,7 @@ func (rw *ResponseWriter) Write(b []byte) (int, error) {
 }
 
 func (rw *ResponseWriter) WriteHeader(c int) {
+	rw.setHandlerInfo()
 	rw.W.WriteHeader(c)
 }
 

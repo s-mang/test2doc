@@ -51,12 +51,22 @@ func NewDoc(pkgDir string) (doc *Doc, err error) {
 
 	doc = &Doc{
 		Group: ResourceGroup{
-			Title: strings.Title(pkgDoc.Name),
+			Title:       strings.Title(pkgDoc.Name),
+			Description: pkgDocApib(pkgDoc.Doc),
 		},
 		file: fi,
 	}
 
 	return
+}
+
+// pkgDocApib removes all lines preceding `// apidoc:` marker, allowing for separation of apidoc from package doc.
+func pkgDocApib(s string) string {
+	parts := strings.Split(s, "apidoc:\n")
+	if len(parts) != 2 {
+		return s
+	}
+	return parts[1]
 }
 
 type byResp []*Request
@@ -82,7 +92,8 @@ func (rs byResp) Less(i, j int) bool {
 }
 
 // TODO: add Resource to appropriate ResourceGroup,
-//  not just to ResourceGroups[0]
+//
+//	not just to ResourceGroups[0]
 func (d *Doc) AddResource(resource *Resource) {
 	// sort requests by response status code and body len
 	for method, _ := range resource.Actions {

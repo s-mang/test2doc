@@ -3,6 +3,7 @@ package parse
 import (
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 const camelCase = "[A-Z]?[^A-Z]*"
@@ -30,8 +31,10 @@ func GetDescription(longFnName string) (desc string) {
 	shortFnName := getShortFnName(longFnName)
 
 	doc := funcsMap[shortFnName]
-	if doc != nil {
-		desc = strings.TrimPrefix(doc.Doc, shortFnName+" ")
+	if doc != nil && len(doc.Doc) > 0 {
+		runes := []rune(strings.TrimPrefix(doc.Doc, doc.Name+" "))
+		runes[0] = unicode.ToUpper(runes[0])
+		desc = string(runes)
 	}
 
 	return

@@ -5,7 +5,9 @@ import "text/template"
 var (
 	resourceTmpl *template.Template
 	resourceFmt  = `## {{.URL.ParameterizedPath}}
-{{.Description}}{{if .URL.Parameters}}
+{{.Description}}
+
+{{if .URL.Parameters}}
 + Parameters
 {{range .URL.Parameters}}{{.Render}}
 {{end}}{{end}}{{range .Actions}}
