@@ -38,3 +38,18 @@ func TestQuoteParameterValue_EmptyValue(t *testing.T) {
 		t.Fatalf("expected 'string(val)' (%v) to equal 'quotedVal' (%v)", string(val), quotedVal)
 	}
 }
+
+func TestQuoteParameterName(t *testing.T) {
+	name := ParameterName("param-name")
+
+	quotedName := name.Quote()
+	if len(name)+2 != len(quotedName) {
+		t.Fatalf("expected 'len(name)+2' (%v) to equal 'len(quotedName)' (%v)", len(name)+2, len(quotedName))
+	}
+	if !strings.Contains(quotedName, string(name)) {
+		t.Fatalf("expected 'strings.Contains(quotedName, string(name))' (%v) be true", strings.Contains(quotedName, string(name)))
+	}
+	if quotedName[0] != quotedName[len(quotedName)-1] {
+		t.Fatalf("expected 'quotedName[0]' (%v) to equal 'quotedName[len(quotedName)-1]' (%v)", quotedName[0], quotedName[len(quotedName)-1])
+	}
+}

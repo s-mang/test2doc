@@ -22,7 +22,7 @@ HOST: https://<api-domain.net>
 <description>
 
 + Parameters
-    + <param>: `<example value>` (<type, eg. string>) - <description>
+    + `<param>`: `<example value>` (<type, eg. string>) - <description>
 
 + Model (<content-type, eg. application/json>)
     
@@ -77,7 +77,7 @@ HOST: https://<api-domain.net>
 <description>
 
 + Parameters
-    + param (<required|optional>, <type, eg. number>, `<example value, eg. 1>`) ... <description>
+    + `param` (<required|optional>, <type, eg. number>, `<example value, eg. 1>`) ... <description>
 
 ### <request #1 title> [<request method, eg. PUT]
 <description>

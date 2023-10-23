@@ -21,7 +21,7 @@ const (
 
 var (
 	parameterTmpl *template.Template
-	parameterFmt  = `    + {{.Name}}: {{.Value.Quote}} ({{.Type.String}}){{with .Description}} - {{.}}{{end}}`
+	parameterFmt  = `    + {{.Name.Quote}}: {{.Value.Quote}} ({{.Type.String}}){{with .Description}} - {{.}}{{end}}`
 )
 
 func init() {
@@ -29,7 +29,7 @@ func init() {
 }
 
 type Parameter struct {
-	Name        string
+	Name        ParameterName
 	Description string
 	Value       ParameterValue
 	Type        ParameterType
@@ -41,7 +41,7 @@ type Parameter struct {
 
 func MakeParameter(key, val string) Parameter {
 	return Parameter{
-		Name:       key,
+		Name:       ParameterName(key),
 		Value:      ParameterValue(val),
 		Type:       paramType(val),
 		IsRequired: true, // assume anything in route URL is required
@@ -51,6 +51,16 @@ func MakeParameter(key, val string) Parameter {
 
 func (p *Parameter) Render() string {
 	return render(parameterTmpl, p)
+}
+
+type ParameterName string
+
+func (val ParameterName) Quote() (qval string) {
+	if len(val) > 0 {
+		qval = fmt.Sprintf("`%s`", string(val))
+	}
+
+	return
 }
 
 type ParameterValue string
