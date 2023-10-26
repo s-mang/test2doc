@@ -18,11 +18,21 @@ func init() {
 	requestTmpl = template.Must(template.New("request").Parse(requestFmt))
 }
 
+const (
+	descriptionHeader = "X-Test2Doc-Description"
+	titleHeader       = "X-Test2Doc-Title"
+)
+
 type Request struct {
 	Header   *Header
 	Body     *Body
 	Method   string
 	Response *Response
+
+	// Headers which are pulled out of request
+	// to use for generating documentation.
+	Description string
+	Title       string
 
 	// TODO:
 	// Attributes
@@ -30,6 +40,14 @@ type Request struct {
 }
 
 func NewRequest(req *http.Request) (*Request, error) {
+	// pull test2doc headers out of request,
+	// then delete header so that it's not used
+	// in the actual request
+	desc := req.Header.Get(descriptionHeader)
+	req.Header.Del(descriptionHeader)
+	title := req.Header.Get(titleHeader)
+	req.Header.Del(titleHeader)
+
 	body1, body2, err := cloneBody(req.Body)
 	if err != nil {
 		return nil, err
@@ -41,9 +59,11 @@ func NewRequest(req *http.Request) (*Request, error) {
 	contentType := req.Header.Get("Content-Type")
 
 	return &Request{
-		Header: NewHeader(req.Header),
-		Body:   NewBody(b2bytes, contentType),
-		Method: req.Method,
+		Header:      NewHeader(req.Header),
+		Body:        NewBody(b2bytes, contentType),
+		Method:      req.Method,
+		Description: desc,
+		Title:       title,
 	}, nil
 }
 
