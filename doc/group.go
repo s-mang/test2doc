@@ -6,6 +6,7 @@ var (
 	resourceGroupTmpl *template.Template
 	resourceGroupFmt  = `
 # Group {{.Title}}
+{{.Description}}
 {{range .Resources}}
 {{.Render}}{{end}}`
 )

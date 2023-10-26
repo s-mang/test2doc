@@ -33,6 +33,12 @@ func NewPackageDoc(dir string) (*doc.Package, error) {
 
 func setDocFuncsMap(pkgDoc *doc.Package) {
 	funcsMap = make(map[string]*doc.Func, len(pkgDoc.Funcs))
+	for _, tp := range pkgDoc.Types {
+		for _, fn := range tp.Methods {
+			fn.Doc = strings.Replace(fn.Doc, "\t", "    ", -1)
+			funcsMap["("+fn.Recv+")"+fn.Name] = fn
+		}
+	}
 	for _, fn := range pkgDoc.Funcs {
 		// replace any \t character in comment with spaces
 		// because apiary parser cannot handle tabs

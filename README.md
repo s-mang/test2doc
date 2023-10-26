@@ -4,6 +4,9 @@
 
 Generate documentation for your REST/HTTP API from your Go unit tests - a simple addition to Go's testing package.
 
+This fork adds `MakeEchoRouterExtractor` to extract query params from labstack.Echo server 
+and includes method handlers in documentation.
+
 ### Diving right in..
 
 Given a handler func:
